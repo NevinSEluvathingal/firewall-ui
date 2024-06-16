@@ -7,7 +7,7 @@
   let password: string = '';
 
   const handleSubmit = async (event: Event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
     // Get form data
     const formData = {
@@ -17,7 +17,7 @@
     };
 
     try {
-      // Make a POST request to the Go server running on port 5173
+
       const response = await fetch('http://192.168.1.9:4000/signup', {
         method: 'POST',
         headers: {
@@ -31,18 +31,18 @@
       }
 
       const data = await response.json();
-      // Handle successful response
+ 
       console.log('Success:', data);
-      // Optionally, redirect or perform other actions based on the response
+    
     } catch (error) {
-      // Handle error
+  
       console.error('Error:', error);
     }
 
     
   };
 
-  // Example of using onMount if needed
+ 
   onMount(() => {
     console.log('Component mounted');
   });
