@@ -4,7 +4,6 @@ import {gsap} from 'gsap';
   import Loader from "$lib/components/ui/loader/loader.svelte";
 
   let isloading=false;
-  // Define the expected structure
   interface UserClaims {
     Mail: string;
     Usertype: string;
@@ -20,7 +19,7 @@ import {gsap} from 'gsap';
   let userType: string = '';
 
   const handleSubmit = async (event: Event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
     // Get form data
     const formData = {
@@ -32,7 +31,6 @@ import {gsap} from 'gsap';
 
     try {
       isloading=true;
-      // Make a POST request to the Go server running on port 4000
       const response = await fetch('http://192.168.1.9:4000/signin', {
         method: 'POST',
         headers: {
@@ -46,13 +44,11 @@ import {gsap} from 'gsap';
       }
 
       const data = await response.json();
-      // Handle successful response
       console.log('Success:', data);
 
-      // Assuming the response contains a token
       const token = data.token;
 
-      // Fetch user info using the token
+
       const userInfoResponse = await fetch('http://192.168.1.9:4000/getuser', {
         method: 'GET',
         headers: {
