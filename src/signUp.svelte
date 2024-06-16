@@ -58,25 +58,25 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     position:absolute;
     top:50%;
-    left:50%;
+    left:75%;
     transform:translate(-50%,-50%);
     width: 250px;
     margin: 0 auto; /* Center horizontally */
   
   }
   .universe {
-   background-image: url('./space.jpg');
+   background-image: url('./pxfuel.jpg');
     background-size: cover;
     background-position: center;
-     background-attachment: fixed;
+     background-attachment: inherit;
      height:100vh;
-     width:100vw;
+     width:50vw;
   }
   .form-group {
        position: relative;
     margin: 30px 0;
     max-width: 250px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #000000;
 
   }
   .form-group input {
@@ -89,7 +89,7 @@
     top: -11px;
     left: 5px;
     transform: translateY(-50%);
-    color: #fff;
+    color: #000000;
     font-size: 1rem;
     pointer-events: none;
     transition: all 0.5s ease-in-out;
@@ -102,7 +102,7 @@
   .form-button {
     padding:10px;  
     font-size:15px; 
-     background-color:rgb(1,1,1,0.7); 
+     background-color:rgba(45, 45, 45, 0.7); 
      color:white;
       border-radius:5px;
       text-align:center;
