@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+import { onMount } from 'svelte';
+import {gsap} from 'gsap';
+  import Loader from "$lib/components/ui/loader/loader.svelte";
 
+  let isloading=false;
   // Define the expected structure
   interface UserClaims {
     Mail: string;
@@ -28,6 +31,7 @@
     localStorage.setItem('name',username)
 
     try {
+      isloading=true;
       // Make a POST request to the Go server running on port 4000
       const response = await fetch('http://192.168.1.9:4000/signin', {
         method: 'POST',
@@ -65,9 +69,7 @@
       const userinfo = userInfoData.userinfo;
       mail = userinfo.Mail;
       userType = userinfo.Usertype;
-
-      console.log('mail:', mail);
-      console.log('usertype:', userType);
+      localStorage.setItem("mail",mail)
 
       if(userinfo.Usertype=='user'){
          window.location.href = '/Bar';
@@ -80,12 +82,29 @@
       console.error('Error:', error);
       alert('Invalid login credentials or failed to fetch user info');
     }
+    isloading=false;
   };
 
   // Example of using onMount if needed
   onMount(() => {
-    console.log('Component mounted');
-  });
+  console.log('Component mounted');
+  isloading=false;
+  gsap.fromTo(
+    '.loader',
+    { opacity: 1 },
+    {
+      opacity: 0,
+      duration: 1,
+      delay: 5,
+      onComplete: () => {
+        const loader = document.querySelector('.loader') as HTMLDivElement;
+        if (loader) {
+          loader.style.display = 'none';
+        }
+      }
+    }
+  );
+});
 </script>
 
 <style>
@@ -98,25 +117,25 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     position:absolute;
     top:50%;
-    left:50%;
+    left:75%;
     transform:translate(-50%,-50%);
     width: 250px;
     margin: 0 auto; /* Center horizontally */
   
   }
   .universe {
-   background-image: url('./space.jpg');
+   background-image: url('./pxfuel.jpg');
     background-size: cover;
     background-position: center;
-     background-attachment: fixed;
+     background-attachment: inherit;
      height:100vh;
-     width:100vw;
+     width:50vw;
   }
   .form-group {
        position: relative;
     margin: 30px 0;
     max-width: 250px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #000000;
 
   }
   .form-group input {
@@ -129,7 +148,7 @@
     top: -11px;
     left: 5px;
     transform: translateY(-50%);
-    color: #fff;
+    color: #000000;
     font-size: 1rem;
     pointer-events: none;
     transition: all 0.5s ease-in-out;
@@ -142,24 +161,84 @@
   .form-button {
     padding:10px;  
     font-size:15px; 
-     background-color:rgb(1,1,1,0.7); 
-     color:white;
+     background-color:rgba(49, 48, 48, 0.7); 
+     color:rgb(255, 255, 255);
       border-radius:5px;
       text-align:center;
   }
   .form-button:hover {
     padding:10px;
     font-size:15px;
-    color:white;
+    color:rgb(255, 255, 255);
     border-radius:5px;
-    background-color:black;
+    background-color:rgb(0, 0, 0);
     text-align:center;
   }
 .form-container {
    filter: drop-shadow(0px 4px 8px rgba(1, 1, 1, 1));
 }
+.svg {
+  
+  stroke: white;
+  stroke-width: 10px;
+  fill-opacity: 0;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.svg svg {
+  height: 200px;
+  width: 200px;
+  stroke-dasharray:4500;
+  animation: draw 5s ease-in;
+}
+@keyframes draw {
+  0% {
+    stroke-dashoffset:4500 ;
+  }
+  100% {
+    stroke-dashoffset:0 ;
+  }
+}
+@keyframes brand {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.svg h3 {
+  color: white;
+  font-size: larger;
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  stroke-dasharray: 4500;
+  animation:  brand 4s ease-in;
+}
 
+.loader {
+  position: absolute;
+  align-items: center;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right,rgb(72, 67, 67),rgb(43, 40, 40),rgb(22, 21, 21),black);
+  height: 100%;
+  width: 100%;
+}
+.dont {
+  color:#3e3d3d
+}
+.dont:hover {
+  color:#000000
+}
 </style>
+{#if isloading}
+  <Loader /> 
+{/if}
 <section class="universe">
 <div class="form-container">
   <h2 id="h">Sign in</h2>
@@ -180,8 +259,31 @@
     <button type="submit" class="form-button">Sign In</button>
     </div>
     <div>
-     <a href="./sign-up"> Dont have an account </a>
+     <a href="./sign-up" class="dont"> Dont have an account </a>
     </div>
   </form>
-</div>
-</section>
+  <div>
+ </div> 
+  </section>
+
+<div class="loader">
+  <div class="svg">
+   <svg
+width="100"
+height="100"
+viewBox="0 0 100 100"
+xmlns="http://www.w3.org/2000/svg"
+>
+<path
+  d="M50,5 L20,20 L20,40 Q20,75 50,95 Q80,75 80,40 L80,20 Z"
+  fill="#D4AF37"
+  stroke-width="1"
+  
+/>
+</svg> 
+    <h3>FortiGuard</h3>  
+  </div>
+ 
+  </div>
+
+
