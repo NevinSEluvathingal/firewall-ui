@@ -151,18 +151,18 @@
   <form on:submit|preventDefault={handleSubmit}>
     <div class="form-group">
       <label for="username" class="form-label">Username:</label>
-      <input type="text" id="username" class="form-input" bind:value={username} >
+      <input type="text" id="username" class="form-input" bind:value={username} required>
     </div>
     <div class="form-group">
       <label for="mail" class="form-label">Email:</label>
-      <input type="text" id="mail" class="form-input" bind:value={mail} >
+      <input type="text" id="mail" class="form-input" bind:value={mail} required>
     </div>
     {#if emailerror} 
         <div class="error"><p>{emailerror}</p></div>
     {/if}
     <div class="form-group">
       <label for="password" class="form-label">Password:</label>
-      <input type="password" id="password" class="form-input" bind:value={password} >
+      <input type="password" id="password" class="form-input" bind:value={password} required>
     </div>
     <div class="butto"> 
     <button type="submit" class="form-button">Sign Up</button>
