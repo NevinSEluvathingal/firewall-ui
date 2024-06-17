@@ -2,7 +2,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Loader from "$lib/components/ui/loader/loader.svelte";
+  import Scs from "$lib/components/ui/success/success.svelte";
+
   let isloading=false;
+  let success=false;
+  
 
   let username: string = '';
   let mail: string = '';
@@ -13,6 +17,7 @@
     event.preventDefault();
 
     if(!validate(mail)) {
+      console.log(mail)
       emailerror='please enter valid email';
       return;
     }
@@ -29,7 +34,7 @@
 
     try {
       isloading=true;
-      const response = await fetch('http://192.168.1.9:4000/signup', {
+      const response = await fetch('http://192.168.1.8:4000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,16 +49,19 @@
       const data = await response.json();
  
       console.log('Success:', data);
-    
+    success=true;
+    setTimeout(()=>{
+      window.location.href='/sign-in'
+    },4000);
     } catch (error) {
   
       console.error('Error:', error);
     }
-
+  
     isloading=false;
   };
   const validate=(email:string):boolean =>{
-    const re=/^[^/s@]+@[^/s@]+.[^/s@]+$/;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test((email).toLowerCase());  
   }
 
@@ -61,6 +69,7 @@
   onMount(() => {
     console.log('Component mounted');
     isloading=false;
+    success=false;
   });
 </script>
 
@@ -144,6 +153,9 @@
 
 {#if isloading}
   <Loader />
+{/if}
+{#if success}
+  <Scs />
 {/if}
 <section class="universe">
 <div class="form-container">
