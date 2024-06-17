@@ -1,13 +1,24 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Loader from "$lib/components/ui/loader/loader.svelte";
+  let isloading=false;
 
   let username: string = '';
   let mail: string = '';
   let password: string = '';
+  let emailerror: string= '';
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
+
+    if(!validate(mail)) {
+      emailerror='please enter valid email';
+      return;
+    }
+    else {
+      emailerror='';
+    }
 
     // Get form data
     const formData = {
@@ -17,7 +28,7 @@
     };
 
     try {
-
+      isloading=true;
       const response = await fetch('http://192.168.1.9:4000/signup', {
         method: 'POST',
         headers: {
@@ -39,12 +50,17 @@
       console.error('Error:', error);
     }
 
-    
+    isloading=false;
   };
+  const validate=(email:string):boolean =>{
+    const re=/^[^/s@]+@[^/s@]+.[^/s@]+$/;
+    return re.test((email).toLowerCase());  
+  }
 
  
   onMount(() => {
     console.log('Component mounted');
+    isloading=false;
   });
 </script>
 
@@ -118,8 +134,17 @@
 .form-container {
    filter: drop-shadow(0px 4px 8px rgba(1, 1, 1, 1));
 }
-
+.error {
+  margin-top: -30px;
+}
+.error p {
+  color: red;
+}
 </style>
+
+{#if isloading}
+  <Loader />
+{/if}
 <section class="universe">
 <div class="form-container">
   <h2 id="h">Create</h2>
@@ -132,6 +157,9 @@
       <label for="mail" class="form-label">Email:</label>
       <input type="text" id="mail" class="form-input" bind:value={mail} >
     </div>
+    {#if emailerror} 
+        <div class="error"><p>{emailerror}</p></div>
+    {/if}
     <div class="form-group">
       <label for="password" class="form-label">Password:</label>
       <input type="password" id="password" class="form-input" bind:value={password} >
