@@ -3,9 +3,11 @@
   import { onMount } from 'svelte';
   import Loader from "$lib/components/ui/loader/loader.svelte";
   import Scs from "$lib/components/ui/success/success.svelte";
+  import Exist from "$lib/components/ui/exist/exist.svelte";
 
   let isloading=false;
   let success=false;
+  let exist=false;
   
 
   let username: string = '';
@@ -43,7 +45,8 @@
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const errmes=await response.json();
+        throw new Error(errmes.message);
       }
 
       const data = await response.json();
@@ -54,8 +57,10 @@
       window.location.href='/sign-in'
     },4000);
     } catch (error) {
-  
-      console.error('Error:', error);
+        console.error('Error:', error.message);
+        if(error.message=="existing"){
+          exist=true;
+        }
     }
   
     isloading=false;
@@ -156,6 +161,9 @@
 {/if}
 {#if success}
   <Scs />
+{/if}
+{#if exist} 
+  <Exist />
 {/if}
 <section class="universe">
 <div class="form-container">
