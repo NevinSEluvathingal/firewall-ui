@@ -1,67 +1,84 @@
 <script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
 	import { scaleLinear } from "d3-scale";
-    export { default as Bar } from "./bar.svelte";
+	export { default as Bar } from "./bar.svelte";
 
-	/*const response=fetch('http://192.168.1.9:4000/getBar', {
-    method: 'GET',
-    })
-    if(!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    const Bardata = response.json();*/
 
-	const data = [
-		{
-			name: "Jan",
-			total: 100,
-		},
-		{
-			name: "Feb",
-			total: 200,
-		},
-		{
-			name: "Mar",
-			total: 300,
-		},
-		{
-			name: "Apr",
-			total: 400,
-		},
-		{
-			name: "May",
-			total: 500,
-		},
-		{
-			name: "Jun",
-			total: 600,
-		},
-		{
-			name: "Jul",
-			total: 700,
-		},
-		{
-			name: "Aug",
-			total: 800,
-		},
-		{
-			name: "Sep",
-			total: 900,
-		},
-		{
-			name: "Oct",
-			total: 1000,
-		},
-		{
-			name: "Nov",
-			total: 550,
-		},
-		{
-			name: "Dec",
-			total: 780,
-		},
-	];
+	interface Bar {
+		Jan: number;
+		Feb: number;
+		Mar: number;
+		April: number;
+		May: number;
+		June: number;
+		Jul: number;
+		Aug: number;
+		Sept: number;
+		Oct: number;
+		Nov: number;
+		Dec:number;
+	}
 
-	const xTicks = data.map((d) => d.name);
+	interface BarInfo {
+		BarDetails: Bar;
+	}
+
+	let barDetails: Bar | null = null;
+
+	const fetchBardetails = async () => {
+		try {
+			const email = localStorage.getItem("mail");
+			if (!email) {
+				throw new Error("Email not found in localStorage");
+			}
+
+			const response = await fetch(`http://192.168.1.9:4000/barinfo?email=${encodeURIComponent(email)}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			const data: BarInfo = await response.json();
+			barDetails = data.BarDetails;
+			console.log('Bar details:', barDetails);
+
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
+
+	onMount(() => {
+		fetchBardetails();
+		const interval = setInterval(fetchBardetails, 600000); // 600000 ms = 10 minutes
+		return () => clearInterval(interval); // Clean up the interval on component destroy
+	});
+
+	// Initialize data to an empty array
+	let data = [];
+
+	// Update the data array whenever barDetails changes
+	$: if (barDetails) {
+		data = [
+			{ name: "Jan", total: barDetails.Jan },
+			{ name: "Feb", total: barDetails.Feb },
+			{ name: "Mar", total: barDetails.Mar },
+			{ name: "Apr", total: barDetails.April },
+			{ name: "May", total: barDetails.May },
+			{ name: "Jun", total: barDetails.June },
+			{ name: "Jul", total: barDetails.Jul },
+			{ name: "Aug", total: barDetails.Aug },
+			{ name: "Sep", total: barDetails.Sept },
+			{ name: "Oct", total: barDetails.Oct },
+			{ name: "Nov", total: barDetails.Nov },
+			{ name: "Dec", total: barDetails.Dec },
+		];
+	}
+
 	const yTicks = [0, 100, 500, 1000];
 	const padding = { top: 20, right: 15, bottom: 20, left: 45 };
 
@@ -70,6 +87,11 @@
 
 	function formatMobile(tick: number | string) {
 		return "'" + tick.toString().slice(-2);
+	}
+
+	let xTicks = [];
+	$: if (data.length) {
+		xTicks = data.map((d) => d.name);
 	}
 
 	$: xScale = scaleLinear()
@@ -84,6 +106,7 @@
 	$: barWidth = innerWidth / xTicks.length;
 </script>
 
+{#if barDetails}
 <div class="chart" bind:clientWidth={width} bind:clientHeight={height}>
 	<svg>
 		<!-- y axis -->
@@ -143,6 +166,7 @@
 		</g>
 	</svg>
 </div>
+{/if}
 
 <style>
 	.chart {
