@@ -2,8 +2,12 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import Loader from "$lib/components/ui/loader/loader.svelte";
+  import Invalid from "$lib/components/ui/invalid/invalid.svelte";
+  import Ise from "$lib/components/ui/ise/ise.svelte";
 
   let isloading = false;
+  let invalid=false;
+  let ise=false;
 
   interface UserClaims {
     Mail: string;
@@ -18,9 +22,19 @@
   let mail: string = '';
   let password: string = '';
   let userType: string = '';
+  let emailerror: string= '';
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
+
+    if(!validate(mail)) {
+      console.log(mail)
+      emailerror='please enter valid email';
+      return;
+    }
+    else {
+      emailerror='';
+    }
 
     const formData = {
       username: username,
@@ -31,7 +45,9 @@
 
     try {
       isloading = true;
-      const response = await fetch('http://192.168.1.9:4000/signin', {
+      ise=false;
+      invalid=false;
+      const response = await fetch('http://192.168.1.8:4000/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,11 +56,11 @@
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        isloading=false;
+        const errordata=await response.json();
+        throw new Error(errordata.message);
       }
-
       const data = await response.json();
-      console.log('Success:', data);
 
       const token = data.token;
 
@@ -73,12 +89,24 @@
       }
 
     } catch (error) {
-      console.error('Error:', error);
-      alert('Invalid login credentials or failed to fetch user info');
-    } finally {
+      console.error('Error:', error.message);
+      
+        if(error.message=="invalid") {
+          invalid=true;
+        }
+        else {
+          ise=true;
+        }
+      }
+      
+     finally {
       isloading = false;
     }
   };
+  const validate=(email:string):boolean =>{
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test((email).toLowerCase());  
+  }
 
   onMount(() => {
     const isdisplayed = localStorage.getItem('loadershown');
@@ -209,6 +237,13 @@
     100% {
       opacity: 1;
     }
+    
+  }
+  .error {
+  margin-top: -30px;
+  }
+  .error p {
+  color: red;
   }
   .svg h3 {
     color: white;
@@ -239,6 +274,12 @@
 {#if isloading}
   <Loader />
 {/if}
+{#if invalid} 
+  <Invalid />
+{/if}
+{#if ise} 
+  <Ise />
+{/if}
 <section class="universe">
   <div class="form-container">
     <h2 id="h">Sign in</h2>
@@ -251,6 +292,9 @@
         <label for="mail" class="form-label">Email:</label>
         <input type="text" id="mail" class="form-input" bind:value={mail} required>
       </div>
+      {#if emailerror} 
+      <div class="error"><p>{emailerror}</p></div>
+      {/if}
       <div class="form-group">
         <label for="password" class="form-label">Password:</label>
         <input type="password" id="password" class="form-input" bind:value={password} required>
