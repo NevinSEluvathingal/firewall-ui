@@ -2,12 +2,22 @@
     import Bar from "$lib/components/ui/bar/bar.svelte"
     import Connected from "$lib/components/ui/hist/hist.svelte"
     import { onMount } from 'svelte';
+    import io from 'socket.io-client';
+
+    const socket = io('http://192.168.1.8:5000');
+	let avg_speed=0;
    let user=localStorage.getItem('name')
 
    let username = 'hello';
 
    onMount(() => {
         username=user.toUpperCase();
+        socket.on('average_speed',(data)=>{
+			avg_speed=data.speed;
+		})
+        return () => {
+        socket.disconnect();
+        }
     });
 
 
