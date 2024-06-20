@@ -25,6 +25,7 @@
     "formsnap": "^0.5.1",
     "gsap": "^3.12.5",
     "lucide-svelte": "^0.344.0",
+    "socket.io-client": "^4.7.5",
     "svelte-routing": "^2.12.0",
     "sveltekit-superforms": "^2.8.1",
     "tailwind-merge": "^2.2.1",
