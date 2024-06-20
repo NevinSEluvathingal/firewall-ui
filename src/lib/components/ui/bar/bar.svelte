@@ -2,10 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { scaleLinear } from "d3-scale";
 	export { default as Bar } from "./bar.svelte";
-	import io from 'socket.io-client';
 
-	const socket = io('http://192.168.1.8:5000');
-	let avg_speed=0;
 
 	interface Bar {
 		Jan: number;
@@ -58,12 +55,8 @@
 	onMount(() => {
 		fetchBardetails();
 		const interval = setInterval(fetchBardetails, 600000); 
-		socket.on('average_speed',(data)=>{
-			avg_speed=data.speed;
-		})
 		return () => {
 			clearInterval(interval);
-			socket.disconnect();
 		} 
 	});
 
