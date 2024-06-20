@@ -2,7 +2,10 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { scaleLinear } from "d3-scale";
 	export { default as Bar } from "./bar.svelte";
+	import io from 'socket.io-client';
 
+	const socket = io('http://192.168.1.8:5000');
+	let avg_speed=0;
 
 	interface Bar {
 		Jan: number;
@@ -32,7 +35,7 @@
 				throw new Error("Email not found in localStorage");
 			}
 
-			const response = await fetch(`http://192.168.1.9:4000/barinfo?email=${encodeURIComponent(email)}`, {
+			const response = await fetch(`http://192.168.1.8:4000/barinfo?email=${encodeURIComponent(email)}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -54,14 +57,20 @@
 
 	onMount(() => {
 		fetchBardetails();
-		const interval = setInterval(fetchBardetails, 600000); // 600000 ms = 10 minutes
-		return () => clearInterval(interval); // Clean up the interval on component destroy
+		const interval = setInterval(fetchBardetails, 600000); 
+		socket.on('average_speed',(data)=>{
+			avg_speed=data.speed;
+		})
+		return () => {
+			clearInterval(interval);
+			socket.disconnect();
+		} 
 	});
 
-	// Initialize data to an empty array
+
 	let data = [];
 
-	// Update the data array whenever barDetails changes
+
 	$: if (barDetails) {
 		data = [
 			{ name: "Jan", total: barDetails.Jan },
