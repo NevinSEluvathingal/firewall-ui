@@ -4,10 +4,17 @@
   import Loader from "$lib/components/ui/loader/loader.svelte";
   import Invalid from "$lib/components/ui/invalid/invalid.svelte";
   import Ise from "$lib/components/ui/ise/ise.svelte";
+    import { createNightowl } from '@bufferhead/nightowl'
+
+    createNightowl({
+        defaultMode: 'dark',
+        toggleButtonMode: 'newState'
+    })
+
 
   let isloading = false;
-  let invalid=false;
-  let ise=false;
+  let invalid = false;
+  let ise = false;
 
   interface UserClaims {
     Mail: string;
@@ -22,18 +29,17 @@
   let mail: string = '';
   let password: string = '';
   let userType: string = '';
-  let emailerror: string= '';
+  let emailerror: string = '';
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
 
-    if(!validate(mail)) {
-      console.log(mail)
-      emailerror='please enter valid email';
+    if (!validate(mail)) {
+      console.log(mail);
+      emailerror = 'Please enter a valid email';
       return;
-    }
-    else {
-      emailerror='';
+    } else {
+      emailerror = '';
     }
 
     const formData = {
@@ -45,8 +51,8 @@
 
     try {
       isloading = true;
-      ise=false;
-      invalid=false;
+      ise = false;
+      invalid = false;
       const response = await fetch('http://192.168.1.8:4000/signin', {
         method: 'POST',
         headers: {
@@ -56,8 +62,8 @@
       });
 
       if (!response.ok) {
-        isloading=false;
-        const errordata=await response.json();
+        isloading = false;
+        const errordata = await response.json();
         throw new Error(errordata.message);
       }
       const data = await response.json();
@@ -85,35 +91,35 @@
       if (userinfo.Usertype == 'user') {
         window.location.href = '/Bar';
       } else {
-        window.location.href = '/Bar';
+        window.location.href = '/admin';
       }
 
     } catch (error) {
       console.error('Error:', error.message);
       
-        if(error.message=="invalid") {
-          invalid=true;
-        }
-        else {
-          ise=true;
-        }
+      if (error.message == "invalid") {
+        invalid = true;
+      } else {
+        ise = true;
       }
-      
-     finally {
+    } finally {
       isloading = false;
     }
   };
-  const validate=(email:string):boolean =>{
+
+  const validate = (email: string): boolean => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test((email).toLowerCase());  
+    return re.test((email).toLowerCase());
   }
 
   onMount(() => {
-    const isdisplayed = localStorage.getItem('loadershown');
+    const isDisplayed = sessionStorage.getItem('loadershown');
     console.log('Component mounted');
     isloading = false;
 
-    if (isdisplayed !== 'true') {
+    const loader = document.querySelector('.loader') as HTMLDivElement;
+
+    if (isDisplayed !== 'true') {
       gsap.fromTo(
         '.loader',
         { opacity: 1 },
@@ -122,16 +128,14 @@
           duration: 1,
           delay: 5,
           onComplete: () => {
-            const loader = document.querySelector('.loader') as HTMLDivElement;
             if (loader) {
               loader.style.display = 'none';
             }
-            localStorage.setItem('loadershown', 'true');
+            sessionStorage.setItem('loadershown', 'true');
           }
         }
       );
     } else {
-      const loader = document.querySelector('.loader') as HTMLDivElement;
       if (loader) {
         loader.style.display = 'none';
       }
@@ -139,9 +143,11 @@
   });
 </script>
 
+
+
 <style>
   .form-container {
-    background-color: transparent;
+    background-color: white;
     border-radius: 8px;
     backdrop-filter: blur(5px);
     text-align: center;
@@ -170,8 +176,8 @@
   }
   .form-group input {
     background-color: transparent;
-    max-width: 250px;
-    outline: none;
+    max-width: 400px;
+    outline: auto;
   }
   .form-group label {
     position: absolute;
@@ -268,6 +274,12 @@
   }
   .dont:hover {
     color: #000000;
+  }
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 0 rgb(255, 255, 255) inset;
+    box-shadow: none;
+    -webkit-text-fill-color: black; 
+    background-color: white;
   }
 </style>
 
