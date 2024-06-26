@@ -2,6 +2,9 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import Loader from "$lib/components/ui/loader/loader.svelte";
+  import {Button} from "$lib/components/ui/button/index";
+  import {Label} from "$lib/components/ui/label/index";
+  import {Input} from "$lib/components/ui/input/index";
   import Invalid from "$lib/components/ui/invalid/invalid.svelte";
   import Ise from "$lib/components/ui/ise/ise.svelte";
     import { createNightowl } from '@bufferhead/nightowl'
@@ -146,20 +149,18 @@
 
 
 <style>
-  .form-container {
-    background-color: white;
+   .form-container {
     border-radius: 8px;
-    backdrop-filter: blur(5px);
     text-align: center;
     padding: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     position: absolute;
     top: 50%;
     left: 75%;
     transform: translate(-50%, -50%);
-    width: 250px;
+    width: 400px;
     margin: 0 auto; /* Center horizontally */
-  }
+  } 
+  
   .universe {
     background-image: url('./pxfuel.jpg');
     background-size: cover;
@@ -168,50 +169,11 @@
     height: 100vh;
     width: 50vw;
   }
-  .form-group {
-    position: relative;
-    margin: 30px 0;
-    max-width: 250px;
-    border-bottom: 2px solid #000000;
-  }
-  .form-group input {
-    background-color: transparent;
-    max-width: 400px;
-    outline: auto;
-  }
-  .form-group label {
-    position: absolute;
-    top: -11px;
-    left: 5px;
-    transform: translateY(-50%);
-    color: #000000;
-    font-size: 1rem;
-    pointer-events: none;
-    transition: all 0.5s ease-in-out;
-  }
-  #h {
-    text-align: center;
-    font-size: 30px;
-  }
-  .form-button {
-    padding: 10px;
-    font-size: 15px;
-    background-color: rgba(49, 48, 48, 0.7);
-    color: rgb(255, 255, 255);
-    border-radius: 5px;
-    text-align: center;
-  }
-  .form-button:hover {
-    padding: 10px;
-    font-size: 15px;
-    color: rgb(255, 255, 255);
-    border-radius: 5px;
-    background-color: rgb(0, 0, 0);
-    text-align: center;
-  }
-  .form-container {
-    filter: drop-shadow(0px 4px 8px rgba(1, 1, 1, 1));
-  }
+
+
+
+
+
   .svg {
     stroke: white;
     stroke-width: 10px;
@@ -222,12 +184,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
   .svg svg {
     height: 200px;
     width: 200px;
     stroke-dasharray: 4500;
     animation: draw 5s ease-in;
   }
+
   @keyframes draw {
     0% {
       stroke-dashoffset: 4500;
@@ -236,6 +200,7 @@
       stroke-dashoffset: 0;
     }
   }
+
   @keyframes brand {
     0% {
       opacity: 0;
@@ -243,14 +208,16 @@
     100% {
       opacity: 1;
     }
-    
   }
+
   .error {
-  margin-top: -30px;
+    margin-top: -30px;
   }
+
   .error p {
-  color: red;
+    color: red;
   }
+
   .svg h3 {
     color: white;
     font-size: larger;
@@ -260,6 +227,7 @@
     stroke-dasharray: 4500;
     animation: brand 4s ease-in;
   }
+
   .loader {
     position: absolute;
     align-items: center;
@@ -269,19 +237,17 @@
     height: 100%;
     width: 100%;
   }
+
   .dont {
     color: #3e3d3d;
   }
+
   .dont:hover {
     color: #000000;
   }
-  input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 0 rgb(255, 255, 255) inset;
-    box-shadow: none;
-    -webkit-text-fill-color: black; 
-    background-color: white;
-  }
 </style>
+
+
 
 {#if isloading}
   <Loader />
@@ -294,26 +260,53 @@
 {/if}
 <section class="universe">
   <div class="form-container">
-    <h2 id="h">Sign in</h2>
+    <div class="flex flex-col space-y-5 text-center">
+      <h1 class="text-2xl font-semibold tracking-tight">Sign In</h1>
+    </div>
     <form on:submit|preventDefault={handleSubmit}>
-      <div class="form-group">
-        <label for="username" class="form-label">Username:</label>
-        <input type="text" id="username" class="form-input" bind:value={username} required>
-      </div>
-      <div class="form-group">
-        <label for="mail" class="form-label">Email:</label>
-        <input type="text" id="mail" class="form-input" bind:value={mail} required>
-      </div>
-      {#if emailerror} 
-      <div class="error"><p>{emailerror}</p></div>
-      {/if}
-      <div class="form-group">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" id="password" class="form-input" bind:value={password} required>
-      </div>
-      <div class="butto">
-        <button type="submit" class="form-button">Sign In</button>
-      </div>
+      <div class="grid gap-2">
+        <div class="grid gap-1">
+          <Label class="sr-only" for="email">Username</Label>
+          <Input
+            id="username"
+            placeholder="xyz"
+            type="name"
+            autocapitalize="none"
+            autocomplete="none"
+            autocorrect="off"
+            bind:value={username}
+          />
+        </div>
+        <div class="grid gap-1">
+          <Label class="sr-only" for="email">Email</Label>
+          <Input
+            id="email"
+            placeholder="name@example.com"
+            type="email"
+            autocapitalize="none"
+            autocomplete="email"
+            autocorrect="off"
+            bind:value={mail}
+          />
+        </div>
+        {#if emailerror} 
+        <div class="error"><p>{emailerror}</p></div>
+        {/if}
+        <div class="grid gap-1">
+          <Label class="sr-only" for="password">Password</Label>
+          <Input
+            id="password"
+            placeholder=""
+            type="password"
+            autocapitalize="none"
+            autocomplete="none"
+            autocorrect="off"
+            bind:value={password}
+          />
+        </div>
+        <Button type="submit">
+          Sign In with Email
+        </Button>
       <div>
         <a href="./sign-up" class="dont"> Don't have an account </a>
       </div>
