@@ -3,7 +3,17 @@
   import { onMount } from 'svelte';
   import Loader from "$lib/components/ui/loader/loader.svelte";
   import Scs from "$lib/components/ui/success/success.svelte";
+  import {Button} from "$lib/components/ui/button/index";
+  import {Label} from "$lib/components/ui/label/index";
+  import {Input} from "$lib/components/ui/input/index";
   import Exist from "$lib/components/ui/exist/exist.svelte";
+  import { LogIn } from 'lucide-svelte';
+  import { createNightowl } from '@bufferhead/nightowl'
+
+createNightowl({
+    defaultMode: 'dark',
+    toggleButtonMode: 'newState'
+})
 
   let isloading=false;
   let success=false;
@@ -36,6 +46,7 @@
 
     try {
       isloading=true;
+      exist=false;
       const response = await fetch('http://192.168.1.8:4000/signup', {
         method: 'POST',
         headers: {
@@ -70,6 +81,10 @@
     return re.test((email).toLowerCase());  
   }
 
+  function goToSignIn(){
+    window.location.href="./sign-in"
+  }
+
  
   onMount(() => {
     console.log('Component mounted');
@@ -80,17 +95,15 @@
 
 <style>
   .form-container {
-    background-color: transparent;
+    background-color: white;
     border-radius: 8px;
-    backdrop-filter:blur(5px);
     text-align:center;
     padding: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     position:absolute;
     top:50%;
     left:75%;
     transform:translate(-50%,-50%);
-    width: 250px;
+    width: 400px;
     margin: 0 auto; /* Center horizontally */
   
   }
@@ -102,52 +115,6 @@
      height:100vh;
      width:50vw;
   }
-  .form-group {
-       position: relative;
-    margin: 30px 0;
-    max-width: 250px;
-    border-bottom: 2px solid #000000;
-
-  }
-  .form-group input {
-    background-color: transparent;
-    max-width: 250px;
-    outline:none;
-  }
-  .form-group label {
-       position: absolute;
-    top: -11px;
-    left: 5px;
-    transform: translateY(-50%);
-    color: #000000;
-    font-size: 1rem;
-    pointer-events: none;
-    transition: all 0.5s ease-in-out;
-
-  }
-  #h {
-    text-align:center;
-    font-size : 30px
-  }
-  .form-button {
-    padding:10px;  
-    font-size:15px; 
-     background-color:rgba(45, 45, 45, 0.7); 
-     color:white;
-      border-radius:5px;
-      text-align:center;
-  }
-  .form-button:hover {
-    padding:10px;
-    font-size:15px;
-    color:white;
-    border-radius:5px;
-    background-color:black;
-    text-align:center;
-  }
-.form-container {
-   filter: drop-shadow(0px 4px 8px rgba(1, 1, 1, 1));
-}
 .error {
   margin-top: -30px;
 }
@@ -166,27 +133,58 @@
   <Exist />
 {/if}
 <section class="universe">
-<div class="form-container">
-  <h2 id="h">Create</h2>
-  <form on:submit|preventDefault={handleSubmit}>
-    <div class="form-group">
-      <label for="username" class="form-label">Username:</label>
-      <input type="text" id="username" class="form-input" bind:value={username} required>
+  <div class="form-container">
+    <div class="flex flex-col space-y-5 text-center">
+      <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
     </div>
-    <div class="form-group">
-      <label for="mail" class="form-label">Email:</label>
-      <input type="text" id="mail" class="form-input" bind:value={mail} required>
-    </div>
-    {#if emailerror} 
+    <form on:submit|preventDefault={handleSubmit}>
+      <div class="grid gap-2">
+        <div class="grid gap-1">
+          <Label class="sr-only" for="email">Username</Label>
+          <Input
+            id="username"
+            placeholder="xyz"
+            type="name"
+            autocapitalize="none"
+            autocomplete="none"
+            autocorrect="off"
+            bind:value={username}
+          />
+        </div>
+        <div class="grid gap-1">
+          <Label class="sr-only" for="email">Email</Label>
+          <Input
+            id="email"
+            placeholder="name@example.com"
+            type="email"
+            autocapitalize="none"
+            autocomplete="email"
+            autocorrect="off"
+            bind:value={mail}
+          />
+        </div>
+        {#if emailerror} 
         <div class="error"><p>{emailerror}</p></div>
-    {/if}
-    <div class="form-group">
-      <label for="password" class="form-label">Password:</label>
-      <input type="password" id="password" class="form-input" bind:value={password} required>
-    </div>
-    <div class="butto"> 
-    <button type="submit" class="form-button">Sign Up</button>
-    </div>
-  </form>
-</div>
+        {/if}
+        <div class="grid gap-1">
+          <Label class="sr-only" for="password">Password</Label>
+          <Input
+            id="password"
+            placeholder=""
+            type="password"
+            autocapitalize="none"
+            autocomplete="none"
+            autocorrect="off"
+            bind:value={password}
+          />
+        </div>
+        <Button type="submit">
+          Sign Up
+        </Button>
+        <Button on:click={goToSignIn}>
+          LogIn
+        </Button>
+    </form>
+  </div>
 </section>
+
