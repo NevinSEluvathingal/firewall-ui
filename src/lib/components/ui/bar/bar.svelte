@@ -40,7 +40,8 @@
 			});
 
 			if (!response.ok) {
-				throw new Error('Network response was not ok');
+				const errordata = await response.json();
+				throw new Error(errordata.message);
 			}
 
 			const data: BarInfo = await response.json();

@@ -1,7 +1,10 @@
-<script>
+<script lang="ts">
 	import { Label as LabelPrimitive } from "bits-ui";
 	import { cn } from "$lib/utils.js";
-	let className = undefined;
+
+	type $$Props = LabelPrimitive.Props;
+
+	let className: $$Props["class"] = undefined;
 	export { className as class };
 </script>
 
@@ -11,7 +14,6 @@
 		className
 	)}
 	{...$$restProps}
-	on:mousedown
 >
 	<slot />
 </LabelPrimitive.Root>

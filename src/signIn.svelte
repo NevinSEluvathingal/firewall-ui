@@ -305,7 +305,7 @@
           />
         </div>
         <Button type="submit">
-          Sign In with Email
+          Sign In
         </Button>
       <div>
         <a href="./sign-up" class="dont"> Don't have an account </a>

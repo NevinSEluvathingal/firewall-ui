@@ -18,6 +18,7 @@
     "vite": "^5.1.4"
   },
   "dependencies": {
+    "@bufferhead/nightowl": "^0.0.14",
     "@types/gsap": "^3.0.0",
     "bits-ui": "^0.19.5",
     "clsx": "^2.1.0",

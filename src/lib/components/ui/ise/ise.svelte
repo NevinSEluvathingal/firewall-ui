@@ -22,7 +22,7 @@
 </script>
 
 <div class="message">
-    <h3>Internal server error..please try again later</h3>
+    <h3>oops !! something went wrong..please try again later</h3>
 </div>
 
 <style>

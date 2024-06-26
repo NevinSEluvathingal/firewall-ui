@@ -14,6 +14,7 @@
         username=user.toUpperCase();
         socket.on('average_speed',(data)=>{
 			avg_speed=data.speed;
+            console.log(avg_speed);
 		})
         return () => {
         socket.disconnect();
