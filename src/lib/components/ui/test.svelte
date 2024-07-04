@@ -105,8 +105,8 @@
 
 <style>
   .chart-container {
-    width: 400px;
-    height: 150px;
+    width: 100%;
+    height: 90%;
   }
   canvas {
     width: 100% !important;
