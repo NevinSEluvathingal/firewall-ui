@@ -21,6 +21,8 @@ createNightowl({
   
 
   let username: string = '';
+  let firstname: string = '';
+  let lastname: string = '';
   let mail: string = '';
   let password: string = '';
   let emailerror: string= '';
@@ -40,14 +42,16 @@ createNightowl({
     // Get form data
     const formData = {
       username: username,
-      mail: mail,
-      password: password
+      Email: mail,
+      passwd: password,
+      firstname:firstname,
+      lastname:lastname,
     };
 
     try {
       isloading=true;
       exist=false;
-      const response = await fetch('http://192.168.1.8:4000/signup', {
+      const response = await fetch('http://192.168.1.48:3333/account/sign-up', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -176,6 +180,30 @@ createNightowl({
             autocomplete="none"
             autocorrect="off"
             bind:value={password}
+          />
+        </div>
+        <div class="grid gap-1">
+          <Label class="sr-only" for="firstname">firstname</Label>
+          <Input
+            id="firstname"
+            placeholder="firstname"
+            type="name"
+            autocapitalize="none"
+            autocomplete="none"
+            autocorrect="off"
+            bind:value={firstname}
+          />
+        </div>
+        <div class="grid gap-1">
+          <Label class="sr-only" for="lastname">lastname</Label>
+          <Input
+            id="lastname"
+            placeholder="lastname"
+            type="name"
+            autocapitalize="none"
+            autocomplete="none"
+            autocorrect="off"
+            bind:value={lastname}
           />
         </div>
         <Button type="submit">

@@ -29,34 +29,26 @@
   }
 
   let username: string = '';
-  let mail: string = '';
   let password: string = '';
   let userType: string = '';
   let emailerror: string = '';
 
   const handleSubmit = async (event: Event) => {
+
     event.preventDefault();
-
-    if (!validate(mail)) {
-      console.log(mail);
-      emailerror = 'Please enter a valid email';
-      return;
-    } else {
-      emailerror = '';
-    }
-
+ localStorage.setItem('name', username);
+ window.location.href='/admin';
     const formData = {
       username: username,
-      mail: mail,
-      password: password
+      passwd: password,
     };
-    localStorage.setItem('name', username);
-
+   
+   
     try {
       isloading = true;
       ise = false;
       invalid = false;
-      const response = await fetch('http://192.168.1.8:4000/signin', {
+      const response = await fetch('http://192.168.1.48:3333/account/sign-in', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,8 +63,8 @@
       }
       const data = await response.json();
 
-      const token = data.token;
-
+      const token = data.Tokenstring;
+      console.log(token);
       const userInfoResponse = await fetch('http://192.168.1.8:4000/getuser', {
         method: 'GET',
         headers: {
@@ -269,7 +261,7 @@
           <Label class="sr-only" for="email">Username</Label>
           <Input
             id="username"
-            placeholder="xyz"
+            placeholder="Name"
             type="name"
             autocapitalize="none"
             autocomplete="none"
@@ -278,25 +270,10 @@
           />
         </div>
         <div class="grid gap-1">
-          <Label class="sr-only" for="email">Email</Label>
-          <Input
-            id="email"
-            placeholder="name@example.com"
-            type="email"
-            autocapitalize="none"
-            autocomplete="email"
-            autocorrect="off"
-            bind:value={mail}
-          />
-        </div>
-        {#if emailerror} 
-        <div class="error"><p>{emailerror}</p></div>
-        {/if}
-        <div class="grid gap-1">
           <Label class="sr-only" for="password">Password</Label>
           <Input
             id="password"
-            placeholder=""
+            placeholder="Password"
             type="password"
             autocapitalize="none"
             autocomplete="none"

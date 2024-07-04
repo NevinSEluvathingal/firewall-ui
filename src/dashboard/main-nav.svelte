@@ -14,18 +14,12 @@
 		href="/examples/dashboard"
 		class="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
 	>
-		Customers
+		Users
 	</a>
 	<a
 		href="/examples/dashboard"
 		class="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
 	>
-		Products
-	</a>
-	<a
-		href="/examples/dashboard"
-		class="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-	>
-		Settings
+		Rules
 	</a>
 </nav>
