@@ -1,6 +1,5 @@
 <script>
   import { Router, Route } from "svelte-routing";
-
   import SignIn from "./signIn.svelte";
   import SignUp from "./signUp.svelte";
   import bar from "./user.svelte";
