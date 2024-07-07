@@ -100,13 +100,13 @@
 </script>
 
 <div class="chart-container">
-  <canvas bind:this={ctx} width="300" height="150"></canvas>
+  <canvas bind:this={ctx} width="300" height="100"></canvas>
 </div>
 
 <style>
   .chart-container {
     width: 100%;
-    height: 90%;
+    height: 100%;
   }
   canvas {
     width: 100% !important;

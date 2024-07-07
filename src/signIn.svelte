@@ -19,19 +19,8 @@
   let invalid = false;
   let ise = false;
 
-  interface UserClaims {
-    Mail: string;
-    Usertype: string;
-  }
-
-  interface UserInfoResponse {
-    userinfo: UserClaims;
-  }
-
   let username: string = '';
   let password: string = '';
-  let userType: string = '';
-  let emailerror: string = '';
 
   const handleSubmit = async (event: Event) => {
 
@@ -58,54 +47,28 @@
 
       if (!response.ok) {
         isloading = false;
-        const errordata = await response.json();
-        throw new Error(errordata.message);
+        if(response.status===400) {
+          invalid=true;
+        }
+        else if(response.status===500){
+          ise=true;
+        }
+        else
+        throw new Error();
       }
       const data = await response.json();
 
       const token = data.Tokenstring;
+      localStorage.setItem('Token',token);
       console.log(token);
-      const userInfoResponse = await fetch('http://192.168.1.8:4000/getuser', {
-        method: 'GET',
-        headers: {
-          'Authorization': `${token}`
-        }
-      });
-
-      if (!userInfoResponse.ok) {
-        throw new Error('Failed to fetch user info');
-      }
-
-      const userInfoData: UserInfoResponse = await userInfoResponse.json();
-      console.log('UserInfo Response:', userInfoData);
-      const userinfo = userInfoData.userinfo;
-      mail = userinfo.Mail;
-      userType = userinfo.Usertype;
-      localStorage.setItem("mail", mail);
-
-      if (userinfo.Usertype == 'user') {
-        window.location.href = '/Bar';
-      } else {
-        window.location.href = '/admin';
-      }
+      window.location.href='/admin'
 
     } catch (error) {
-      console.error('Error:', error.message);
-      
-      if (error.message == "invalid") {
-        invalid = true;
-      } else {
-        ise = true;
-      }
+      console.error('Error:', error);
     } finally {
       isloading = false;
     }
   };
-
-  const validate = (email: string): boolean => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test((email).toLowerCase());
-  }
 
   onMount(() => {
     const isDisplayed = sessionStorage.getItem('loadershown');
