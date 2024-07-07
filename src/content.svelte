@@ -1,0 +1,117 @@
+<script lang="ts">
+	import Activity from "lucide-svelte/icons/activity";
+    import { onMount } from 'svelte';
+    import Bar from "$lib/components/ui/bar/bar.svelte"
+    import Test from "$lib/components/ui/test.svelte"
+	import CreditCard from "lucide-svelte/icons/credit-card";
+    import * as Card2 from "$lib/components/ui/card2/";
+	import Users from "lucide-svelte/icons/users";
+	import * as Avatar from "$lib/registry/avatarUI/index.js";
+    import RecentSales from "$lib/components/ui/hist/hist.svelte"
+    export { default as Overview } from "./content.svelte";
+
+    let user=localStorage.getItem('name');
+	const Imgs=[
+		'/public/up.png',
+		'/public/down.png'
+	]
+	import * as Card from "$lib/components/ui/card/index.js";
+    let username = 'hello';
+
+onMount(() => {
+     username=user;
+    /* socket.on('curr_speed',(data)=>{
+         speed_up=data.up;
+		speed-down=data.down;
+         console.log(avg_speed);
+     })
+     return () => {
+     socket.disconnect();
+     }*/
+ });
+ </script>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Card.Root>
+                <Card.Header
+                    class="flex flex-row items-center justify-between space-y-0 pb-2"
+                >
+                    <Card.Title class="text-sm font-medium">Speed Graph</Card.Title>
+                </Card.Header>
+                <Card.Content>
+                    <Test />
+                </Card.Content>
+            </Card.Root>
+            <Card.Root>
+                <Card.Header
+                    class="flex flex-row items-center justify-between space-y-0 pb-2"
+                >
+                    <Card.Title class="text-sm font-medium">Peek Bandwidth</Card.Title>
+                    <Users class="h-4 w-4 text-muted-foreground" />
+                </Card.Header>
+                <Card.Content class="pt-0">
+                    <div class="text-2xl font-bold">50Mb/s</div>
+                </Card.Content>
+                <Card.Content>
+                   <div class="flex flex-row items-center justify-center gap-3">
+                    <div class="flex flex-row items-center gap-1">
+                        <Avatar.Root class="h-8 w-8">
+                            <Avatar.Image src={Imgs[0]} alt="Avatar" />
+                            <Avatar.Fallback>OM</Avatar.Fallback>
+                          </Avatar.Root>
+                          <h1 class="text-2xl font-bold">2Mbps</h1>
+                    </div>
+                    <div class="flex flex-row items-center gap-1">
+                        <Avatar.Root class="h-8 w-8">
+                            <Avatar.Image src={Imgs[1]} alt="Avatar" />
+                            <Avatar.Fallback>OM</Avatar.Fallback>
+                          </Avatar.Root>
+                          <h1 class="text-2xl font-bold">2Mbps</h1>
+                    </div>								
+                   </div>
+                </Card.Content>
+            </Card.Root>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
+            <Card.Root>
+                <Card.Header
+                    class="flex flex-row items-center justify-between space-y-0 pb-2"
+                >
+                    <Card.Title class="text-sm font-medium">Active hours</Card.Title>
+                    <CreditCard class="h-4 w-4 text-muted-foreground" />
+                </Card.Header>
+                <Card.Content>
+                        <div class="flex  justify-center text-2xl font-bold items-center">+128Hrs</div>
+                    
+                </Card.Content>
+            </Card.Root>
+            <Card.Root>
+                <Card.Header
+                    class="flex flex-row items-center justify-between space-y-0 pb-2"
+                >
+                    <Card.Title class="text-sm font-medium">Users Connected</Card.Title>
+                    <Activity class="h-4 w-4 text-muted-foreground" />
+                </Card.Header>
+                <Card.Content>
+                    <div class="flex text-2xl font-bold items-center justify-center">73</div>
+                </Card.Content>
+            </Card.Root>
+         </div>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <Card.Root class="col-span-4">
+                <Card.Header>
+                    <Card.Title>Overview</Card.Title>
+                </Card.Header>
+                <Card.Content>
+                    <Bar />
+                </Card.Content>
+            </Card.Root>
+            <Card2.Root class="col-span-3" style="height:30rem">
+                <Card2.Header>
+                    <Card2.Title>Connected Devices</Card2.Title>
+                    <Card2.Description>user and their ip's</Card2.Description>
+                </Card2.Header>
+                <Card2.Content>
+                    <RecentSales />
+                </Card2.Content>
+            </Card2.Root>
+        </div>
