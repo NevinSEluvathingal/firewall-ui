@@ -1,3 +1,4 @@
+
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { scaleLinear } from "d3-scale";
