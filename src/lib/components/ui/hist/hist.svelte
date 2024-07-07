@@ -1,62 +1,43 @@
 <script lang="ts">
+	import { onMount, onDestroy } from "svelte";
 	import AvatarImgs from "$lib/registry/avatar/index.js";
 	import * as Avatar from "$lib/registry/avatarUI/index.js";
+
+	let users = [];
+
+	const fetchUsers = async () => {
+		try {
+			const response = await fetch('http://192.168.1.4/users');
+			if (response.ok) {
+				const data = await response.json();
+				users = data;
+			} else {
+				console.error('Failed to fetch users:', response.statusText);
+			}
+		} catch (error) {
+			console.error('Error fetching users:', error);
+		}
+	};
+
+	onMount(() => {
+		//fetchUsers();
+
+		//const interval = setInterval(fetchUsers, 10000);
+
+		//onDestroy(() => clearInterval(interval));
+	});
 </script>
 
 <div class="space-y-8">
-	<div class="flex items-center">
-		<Avatar.Root class="h-9 w-9">
-			<Avatar.Image src={AvatarImgs[0]} alt="Avatar" />
-			<Avatar.Fallback>OM</Avatar.Fallback>
-		</Avatar.Root>
-		<div class="ml-4 space-y-1">
-			<p class="text-sm font-medium leading-none">Olivia Martin</p>
-			<p class="text-sm text-muted-foreground">olivia.martin@email.com</p>
+	{#each users as user, index}
+		<div class="flex items-center">
+			<Avatar.Root class="h-9 w-9">
+				<Avatar.Image src={AvatarImgs[index % AvatarImgs.length]} alt="Avatar" />
+				<Avatar.Fallback>{user.initials}</Avatar.Fallback>
+			</Avatar.Root>
+			<div class="ml-4 space-y-1">
+				<p class="text-sm font-medium leading-none">{user.name}</p>
+			</div>
 		</div>
-		<div class="ml-auto font-medium">+$1,999.00</div>
-	</div>
-	<div class="flex items-center">
-		<Avatar.Root class="flex h-9 w-9 items-center justify-center space-y-0 border">
-			<Avatar.Image src={AvatarImgs[1]} alt="Avatar" />
-			<Avatar.Fallback>JL</Avatar.Fallback>
-		</Avatar.Root>
-		<div class="ml-4 space-y-1">
-			<p class="text-sm font-medium leading-none">Jackson Lee</p>
-			<p class="text-sm text-muted-foreground">jackson.lee@email.com</p>
-		</div>
-		<div class="ml-auto font-medium">+$39.00</div>
-	</div>
-	<div class="flex items-center">
-		<Avatar.Root class="h-9 w-9">
-			<Avatar.Image src={AvatarImgs[2]} alt="Avatar" />
-			<Avatar.Fallback>IN</Avatar.Fallback>
-		</Avatar.Root>
-		<div class="ml-4 space-y-1">
-			<p class="text-sm font-medium leading-none">Isabella Nguyen</p>
-			<p class="text-sm text-muted-foreground">isabella.nguyen@email.com</p>
-		</div>
-		<div class="ml-auto font-medium">+$299.00</div>
-	</div>
-	<div class="flex items-center">
-		<Avatar.Root class="h-9 w-9">
-			<Avatar.Image src={AvatarImgs[3]} alt="Avatar" />
-			<Avatar.Fallback>WK</Avatar.Fallback>
-		</Avatar.Root>
-		<div class="ml-4 space-y-1">
-			<p class="text-sm font-medium leading-none">William Kim</p>
-			<p class="text-sm text-muted-foreground">will@email.com</p>
-		</div>
-		<div class="ml-auto font-medium">+$99.00</div>
-	</div>
-	<div class="flex items-center">
-		<Avatar.Root class="h-9 w-9">
-			<Avatar.Image src={AvatarImgs[4]} alt="Avatar" />
-			<Avatar.Fallback>SD</Avatar.Fallback>
-		</Avatar.Root>
-		<div class="ml-4 space-y-1">
-			<p class="text-sm font-medium leading-none">Sofia Davis</p>
-			<p class="text-sm text-muted-foreground">sofia.davis@email.com</p>
-		</div>
-		<div class="ml-auto font-medium">+$39.00</div>
-	</div>
+	{/each}
 </div>
