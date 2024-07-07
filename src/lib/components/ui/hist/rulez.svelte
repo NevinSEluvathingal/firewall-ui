@@ -1,4 +1,5 @@
 <script lang="ts">
+	export {default as Rules} from './rulez.svelte';
 </script>
 
 <div class="space-y-8">

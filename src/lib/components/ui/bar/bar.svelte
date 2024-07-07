@@ -5,7 +5,7 @@
 	export { default as Bar } from "./bar.svelte";
 
 
-	interface Bar {
+	/*interface Bar {
 		Jan: number;
 		Feb: number;
 		Mar: number;
@@ -26,7 +26,7 @@
 
 	let barDetails: Bar | null = null;
 
-	const fetchBardetails = async () => {
+	  const fetchBardetails = async () => {
 		try {
 			const email = localStorage.getItem("mail");
 			if (!email) {
@@ -60,28 +60,27 @@
 		return () => {
 			clearInterval(interval);
 		} 
-	});
+	});*/
 
 
 	let data = [];
 
 
-	$: if (barDetails) {
 		data = [
-			{ name: "Jan", total: barDetails.Jan },
-			{ name: "Feb", total: barDetails.Feb },
-			{ name: "Mar", total: barDetails.Mar },
-			{ name: "Apr", total: barDetails.April },
-			{ name: "May", total: barDetails.May },
-			{ name: "Jun", total: barDetails.June },
-			{ name: "Jul", total: barDetails.Jul },
-			{ name: "Aug", total: barDetails.Aug },
-			{ name: "Sep", total: barDetails.Sept },
-			{ name: "Oct", total: barDetails.Oct },
-			{ name: "Nov", total: barDetails.Nov },
-			{ name: "Dec", total: barDetails.Dec },
+			{ name: "Jan", total: 100},//barDetails.Jan },
+			{ name: "Feb", total: 1000},//barDetails.Feb },
+			{ name: "Mar", total: 800},//barDetails.Mar },
+			{ name: "Apr", total: 200},//barDetails.April },
+			{ name: "May", total: 535},//barDetails.May },
+			{ name: "Jun", total: 600},//barDetails.June },
+			{ name: "Jul", total: 250},//barDetails.Jul },
+			{ name: "Aug", total: 2000},//barDetails.Aug },
+			{ name: "Sep", total: 750},//barDetails.Sept },
+			{ name: "Oct", total: 1575},//barDetails.Oct },
+			{ name: "Nov", total: 10},//barDetails.Nov },
+			{ name: "Dec", total: 507},//barDetails.Dec },
 		];
-	}
+
 
 	const yTicks = [0, 100, 500, 1000];
 	const padding = { top: 20, right: 15, bottom: 20, left: 45 };
@@ -110,7 +109,6 @@
 	$: barWidth = innerWidth / xTicks.length;
 </script>
 
-{#if barDetails}
 <div class="chart" bind:clientWidth={width} bind:clientHeight={height}>
 	<svg>
 		<!-- y axis -->
@@ -170,7 +168,7 @@
 		</g>
 	</svg>
 </div>
-{/if}
+
 
 <style>
 	.chart {

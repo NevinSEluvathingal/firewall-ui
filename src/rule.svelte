@@ -3,9 +3,14 @@
     import * as Card from "$lib/components/ui/card/";
     import * as Card2 from "$lib/components/ui/card2/";
     import Mem from "./lib/components/mem.svelte"
-    import Temp from "./lib/components/temp.svelte"
-    import specs from "$lib/components/ui/specs/specs.svelte"  
+    import Temp from "./lib/components/temp.svelte"  
   import Specs from "$lib/components/ui/specs/specs.svelte";
+  import { onMount } from 'svelte';
+  import { startFetching } from './store';
+    
+  onMount(() => {
+    startFetching();
+  });
 </script>
 <div class="flex items-center justify-between space-y-2">
     <h2 class="text-3xl font-bold tracking-tight">Hardware Diagnosis</h2>

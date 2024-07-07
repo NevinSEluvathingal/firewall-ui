@@ -1,102 +1,170 @@
 <script lang="ts">
-    import { onMount, onDestroy } from 'svelte';
-    import { Chart } from 'chart.js/auto';
-    export {default as Test} from './test.svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { Chart } from 'chart.js/auto';
+  import { deviceno } from "../../../store";
+  export { default as Test } from './test.svelte';
 
-    let chart;
-    let ctx;
-    let data = [];
-    let updateInterval;
-  
-    function fetchData() {
-      // Simulate fetching data from the backend
-      let prev = data.length > 0 ? data[data.length - 1].y : 20;
-  
-      prev = Math.random() * 50;
-  
-      if (data.length >= 10) {
-        data.shift();
-      }
-  
-      // Update x values to be within the range 0-9
-      data.forEach((point, index) => point.x = index);
-      data.push({ x: data.length, y: prev });
-  
-      chart.update();
-    }
-  
-    onMount(() => {
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          datasets: [
-            {
-              borderColor: 'black',
-              borderWidth: 1,
-              radius: 0,
-              data: data,
-            },
-          ],
+  let chart;
+  let ctx;
+  let data = [];
+  let data2 = []; 
+  let updateInterval;
+  let strEgr = '';
+  let strIng = '';
+
+  interface Bandwidth {
+    type: string,
+    action: string,
+    arg: string[],
+  }
+
+  const resp: Bandwidth = {
+    type: 'bandwidth',
+    action: '',
+    arg: [],
+  };
+
+  const token = localStorage.getItem('Token');
+  console.log(token);
+
+  async function fetchData() {
+    try {
+      const response = await fetch('http://192.168.1.48:3333/redq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
-        options: {
-          animation: {
-            x: {
-              type: 'number',
-              easing: 'easeOutQuad',
-              duration: 0,
-              from: NaN,
-              delay(ctx) {
-                if (ctx.type !== 'data' || ctx.xStarted) {
-                  return 0;
-                }
-                ctx.xStarted = true;
-                return ctx.index*20;
+        body: JSON.stringify(resp),
+      });
+
+      if (response.ok) {
+        const dataResponse = await response.json();
+        const macAddresses = Object.keys(dataResponse);
+        const totlen=macAddresses.length;
+        console.log(totlen);
+        deviceno.set(totlen);
+        let d = dataResponse.totalRaw;
+        let di = dataResponse.total;
+        let speedValue = d.egress;
+        strIng = di.ingress;
+        strEgr = di.egress;
+        let speedValue2 = d.ingress;
+        const prev = parseInt(speedValue);
+        const prev2 = parseInt(speedValue2);
+        console.log(prev, prev2);
+
+    
+        const maxValue = Math.max(prev, prev2);
+        if (maxValue > chart.options.scales.y.max) {
+          chart.options.scales.y.max = maxValue + 1000; 
+        }
+
+        if (data.length >= 50) {
+          data.shift();
+        }
+
+        if (data2.length >= 50) {
+          data2.shift();
+        }
+
+        data.forEach((point, index) => point.x = index);
+        data2.forEach((point, index) => point.x = index);
+        data.push({ x: data.length, y: prev });
+        data2.push({ x: data2.length, y: prev2 });
+
+        chart.data.datasets[0].label = strEgr;
+        chart.data.datasets[1].label = strIng;
+
+        chart.update();
+      } else {
+        console.error('Failed to fetch data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  onMount(() => {
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [
+          {
+            label: strEgr,
+            borderColor: 'black',
+            borderWidth: 2,
+            radius: 0,
+            data: data,
+          },
+          {
+            label: strIng,
+            borderColor: 'red',
+            borderWidth: 2,
+            radius: 0,
+            data: data2,
+          },
+        ],
+      },
+      options: {
+        animation: {
+          x: {
+            type: 'number',
+            easing: 'easeOutQuad',
+            duration: 0,
+            from: NaN,
+            delay(ctx) {
+              if (ctx.type !== 'data' || ctx.xStarted) {
+                return 0;
               }
-            },
-            y: {
-              type: 'number',
-              easing: 'easeOutQuad',
-              duration: 0,
-              from: 100, // Example static value, adjust as per your requirement
-              delay(ctx) {
-                if (ctx.type !== 'data' || ctx.yStarted) {
-                  return 0;
-                }
-                ctx.yStarted = true;
-                return ctx.index*20;
-              }
+              ctx.xStarted = true;
+              return ctx.index * 20;
             }
           },
-          interaction: {
-            intersect: false,
+          y: {
+            type: 'number',
+            easing: 'easeOutQuad',
+            duration: 0,
+            from: 100,
+            delay(ctx) {
+              if (ctx.type !== 'data' || ctx.yStarted) {
+                return 0;
+              }
+              ctx.yStarted = true;
+              return ctx.index * 20;
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+        },
+        plugins: {
+          legend: true,
+        },
+        scales: {
+          x: {
+            display: false, 
+            type: 'linear',
+            min: 0,
+            max: 49,
+            duration: 100,
           },
-          plugins: {
-            legend: false,
-          },
-          scales: {
-            x: {
-              display: false, // Hide the x-axis
-              type: 'linear',
-              min: 0,
-              max: 9,
-              duration: 100,
-            },
-            y: {
-              display: false, // Hide the y-axis
-              duration: 100,
-              min: 0,
-              max: 50,
-            },
+          y: {
+            display: false,
+            duration: 100,
+            min: 0,
+            max: 10000,
           },
         },
-      });
-  
-      updateInterval = setInterval(fetchData, 1000);
+      },
     });
-  
-    onDestroy(() => {
-      clearInterval(updateInterval);
-    });
+
+    updateInterval = setInterval(fetchData, 1000);
+  });
+
+  onDestroy(() => {
+    clearInterval(updateInterval);
+  });
 </script>
 
 <div class="chart-container">

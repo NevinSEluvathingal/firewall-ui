@@ -26,7 +26,6 @@
 
     event.preventDefault();
  localStorage.setItem('name', username);
- window.location.href='/admin';
     const formData = {
       username: username,
       passwd: password,
@@ -38,6 +37,7 @@
       ise = false;
       invalid = false;
       const response = await fetch('http://192.168.1.48:3333/account/sign-in', {
+      
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

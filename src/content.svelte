@@ -9,6 +9,16 @@
 	import * as Avatar from "$lib/registry/avatarUI/index.js";
     import RecentSales from "$lib/components/ui/hist/hist.svelte"
     export { default as Overview } from "./content.svelte";
+    import {deviceno} from "./store";
+
+    let deviceNo;
+    let str1='';
+    let str2='';
+    deviceno.subscribe($value=>{
+    deviceNo=$value;
+    }
+    );
+    let update;
 
     let user=localStorage.getItem('name');
 	const Imgs=[
@@ -17,6 +27,47 @@
 	]
 	import * as Card from "$lib/components/ui/card/index.js";
     let username = 'hello';
+
+  const token = localStorage.getItem('Token');
+  console.log(token);
+
+  interface Bandwidth {
+    type: string,
+    action: string,
+    arg: string[],
+  }
+
+  const resp: Bandwidth = {
+    type: 'usage',
+    action: '',
+    arg: [],
+  };
+
+  async function fetchData() {
+  try {
+    const response = await fetch('http://192.168.1.48:3333/redq', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Tokenstring': `${token}`,
+      },
+      body: JSON.stringify(resp),
+    });
+
+    if (response.ok) {
+      const dataResponse = await response.json();
+      const val = dataResponse.total;
+      console.log('Data Response:', val);
+      str1=val.ingress;
+      console.log(str1);
+      str2=val.egress;
+    } else {
+      console.error('Failed to fetch data:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
 onMount(() => {
      username=user;
@@ -28,6 +79,7 @@ onMount(() => {
      return () => {
      socket.disconnect();
      }*/
+    update=setInterval(fetchData,1000);
  });
  </script>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -58,14 +110,14 @@ onMount(() => {
                             <Avatar.Image src={Imgs[0]} alt="Avatar" />
                             <Avatar.Fallback>OM</Avatar.Fallback>
                           </Avatar.Root>
-                          <h1 class="text-2xl font-bold">2Mbps</h1>
+                          <h1 class="text-2xl font-bold">{str1}</h1>
                     </div>
                     <div class="flex flex-row items-center gap-1">
                         <Avatar.Root class="h-8 w-8">
                             <Avatar.Image src={Imgs[1]} alt="Avatar" />
                             <Avatar.Fallback>OM</Avatar.Fallback>
                           </Avatar.Root>
-                          <h1 class="text-2xl font-bold">2Mbps</h1>
+                          <h1 class="text-2xl font-bold">{str2}</h1>
                     </div>								
                    </div>
                 </Card.Content>
@@ -91,7 +143,7 @@ onMount(() => {
                     <Activity class="h-4 w-4 text-muted-foreground" />
                 </Card.Header>
                 <Card.Content>
-                    <div class="flex text-2xl font-bold items-center justify-center">73</div>
+                    <div class="flex text-2xl font-bold items-center justify-center">{deviceNo}</div>
                 </Card.Content>
             </Card.Root>
          </div>
