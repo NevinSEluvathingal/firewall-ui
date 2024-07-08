@@ -9,8 +9,8 @@
 </script>
 
 <div
-	class={cn("rounded-xl border bg-card text-card-foreground shadow", className)}
-	style="height: 20rem; overflow: hidden;"
+	class={cn("rounded-xl border bg-card text-card-foreground shadow h-30", className)}
+	style="height: 20rem; overflow: auto;"
 	{...$$restProps}
 	on:click
 	on:focusin

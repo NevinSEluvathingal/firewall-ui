@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Activity from "lucide-svelte/icons/activity";
     import { onMount } from 'svelte';
+    import {writable} from 'svelte/store';
     import Bar from "$lib/components/ui/bar/bar.svelte"
     import Test from "$lib/components/ui/test.svelte"
 	import CreditCard from "lucide-svelte/icons/credit-card";
@@ -12,8 +13,8 @@
     import {deviceno} from "./store";
 
     let deviceNo;
-    let str1='';
-    let str2='';
+    let str1=writable<string>('');
+    let str2=writable<string>('');
     deviceno.subscribe($value=>{
     deviceNo=$value-2;
     }
@@ -58,9 +59,9 @@
       const dataResponse = await response.json();
       const val = dataResponse.total;
       console.log('Data Response:', val);
-      str1=val.ingress;
-      console.log(str1);
-      str2=val.egress;
+      str1.set(val.ingress);
+      console.log(str1+"hello");
+      str2.set(val.egress);
     } else {
       console.error('Failed to fetch data:', response.statusText);
     }
@@ -97,11 +98,10 @@ onMount(() => {
                 <Card.Header
                     class="flex flex-row items-center justify-between space-y-0 pb-2"
                 >
-                    <Card.Title class="text-sm font-medium">Peek Bandwidth</Card.Title>
+                    <Card.Title class="text-sm font-medium">Data Usage</Card.Title>
                     <Users class="h-4 w-4 text-muted-foreground" />
                 </Card.Header>
                 <Card.Content class="pt-0">
-                    <div class="text-2xl font-bold">50Mb/s</div>
                 </Card.Content>
                 <Card.Content>
                    <div class="flex flex-row items-center justify-center gap-3">
@@ -110,14 +110,14 @@ onMount(() => {
                             <Avatar.Image src={Imgs[0]} alt="Avatar" />
                             <Avatar.Fallback>OM</Avatar.Fallback>
                           </Avatar.Root>
-                          <h1 class="text-2xl font-bold">{str1}</h1>
+                          <h1 class="text-2xl font-bold">{$str1}</h1>
                     </div>
                     <div class="flex flex-row items-center gap-1">
                         <Avatar.Root class="h-8 w-8">
                             <Avatar.Image src={Imgs[1]} alt="Avatar" />
                             <Avatar.Fallback>OM</Avatar.Fallback>
                           </Avatar.Root>
-                          <h1 class="text-2xl font-bold">{str2}</h1>
+                          <h1 class="text-2xl font-bold">{$str2}</h1>
                     </div>								
                    </div>
                 </Card.Content>
@@ -127,11 +127,11 @@ onMount(() => {
                 <Card.Header
                     class="flex flex-row items-center justify-between space-y-0 pb-2"
                 >
-                    <Card.Title class="text-sm font-medium">Active hours</Card.Title>
+                    <Card.Title class="text-sm font-medium">Uptime</Card.Title>
                     <CreditCard class="h-4 w-4 text-muted-foreground" />
                 </Card.Header>
                 <Card.Content>
-                        <div class="flex  justify-center text-2xl font-bold items-center">+128Hrs</div>
+                        <div class="flex  justify-center text-2xl font-bold items-center">30Hrs+</div>
                     
                 </Card.Content>
             </Card.Root>
@@ -157,10 +157,10 @@ onMount(() => {
                     <Bar />
                 </Card.Content>
             </Card.Root>
-            <Card2.Root class="col-span-3" style="height:30rem">
+            <Card2.Root class="col-span-3" style="height:10rem,overflow:auto">
                 <Card2.Header>
                     <Card2.Title>Connected Devices</Card2.Title>
-                    <Card2.Description>user and their ip's</Card2.Description>
+                    <Card2.Description>mac addresses</Card2.Description>
                 </Card2.Header>
                 <Card2.Content>
                     <RecentSales />

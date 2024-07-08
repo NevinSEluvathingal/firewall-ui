@@ -36,7 +36,7 @@
     if (response.ok) {
       const dataResponse = await response.json();
 	   keys = Object.keys(dataResponse);
-	   macAddresses=keys.filter(keys=>keys!=="total"&&keys!="totalraw")
+	   macAddresses=keys.filter(keys=>keys!=="total"&&keys!="totalRaw")
 	   console.log(macAddresses);
     } else {
       console.error('Failed to fetch data:', response.statusText);
@@ -51,12 +51,11 @@ onMount(() => {
  });
 </script>
 
-<div class="space-y-8">
+<div class="space-y-8 overflow-auto" style="overflow: auto;">
 	{#each macAddresses as macaddress, index}
-		<div class="flex items-center">
+		<div class="flex items-center" style="overflow: auto;">
 			<Avatar.Root class="h-9 w-9">
 				<Avatar.Image src={AvatarImgs[index % AvatarImgs.length]} alt="Avatar" />
-				<Avatar.Fallback>{user.initials}</Avatar.Fallback>
 			</Avatar.Root>
 			<div class="ml-4 space-y-1">
 				<p class="text-sm font-medium leading-none">{macaddress}</p>

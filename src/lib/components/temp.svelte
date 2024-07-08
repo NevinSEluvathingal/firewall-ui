@@ -1,13 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Chart } from 'chart.js/auto';
-  import { cpuData } from '../../store';
   import { derived } from 'svelte/store';
   export { default as Mem } from './mem.svelte';
 
-  const Temperature = derived(cpuData, $cpuData => $cpuData.Temperature);
+  const Temperature = Math.random()+Math.random()+50;
 
-  let value = 10; 
+  let value = Temperature; 
   let label = 'Temperature';
   let unit = 'c';
   let canvas;

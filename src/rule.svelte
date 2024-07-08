@@ -7,7 +7,7 @@
   import Specs from "$lib/components/ui/specs/specs.svelte";
   import { onMount } from 'svelte';
   import { startFetching } from './store';
-    
+
   onMount(() => {
     startFetching();
   });
@@ -36,7 +36,7 @@
                    <Temp />
                 </Card.Content>
             </Card.Root>
-            <Card2.Root class="col-span-1">
+            <Card2.Root class="col-span-1 overflow-hidden">
                 <Card2.Header>
                     <Card2.Title>Specs</Card2.Title>
                 </Card2.Header>
