@@ -13,6 +13,8 @@
     }
   
     let newUrl = '';
+    let newmac = '';
+    let maclist=writable<string[]>([]);
     let urlList = writable<string[]>([]);
   
 
@@ -23,7 +25,7 @@
         arg: [newUrl]
       };
       try {
-        const response = await fetch('http://192.168.1.48:3333/redq', {
+        const response = await fetch('http://192.168.1.38:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -48,7 +50,7 @@
         arg: [url]
       };
       try {
-        const response = await fetch('http://192.168.1.48:3333/redq', {
+        const response = await fetch('http://192.168.1.38:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -97,5 +99,35 @@
         </div>
       </Card.Content>
     </Card.Root>
+    <Card.Root style="overflow:hidden">
+        <Card.Header>
+          <div>
+            <Input
+              type="search"
+              placeholder="mac address..."
+              class="h-9 md:w-[100px] lg:w-[300px]"
+              bind:value={newUrl}
+            />
+          </div>
+          <Button size="sm" on:click={addUrl}>
+            Add
+          </Button>
+        </Card.Header>
+        <Card.Content>
+          <div class="space-y-8">
+            <div><h2>Mac Blocked</h2></div>
+            {#each $maclist as url (url)}
+              <div class="flex items-center">
+                <div class="ml-4 space-y-1">
+                  <p class="text-sm font-medium leading-none">{url}</p>
+                </div>
+                <div class="ml-auto font-medium">
+                  <Button size="sm" on:click={() => removeUrl(url)}>Remove</Button>
+                </div>
+              </div>
+            {/each}
+          </div>
+        </Card.Content>
+      </Card.Root>
   </div>
   

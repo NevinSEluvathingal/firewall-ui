@@ -15,7 +15,7 @@
     let str1='';
     let str2='';
     deviceno.subscribe($value=>{
-    deviceNo=$value;
+    deviceNo=$value-2;
     }
     );
     let update;
@@ -45,7 +45,7 @@
 
   async function fetchData() {
   try {
-    const response = await fetch('http://192.168.1.48:3333/redq', {
+    const response = await fetch('http://192.168.1.38:3333/redq', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
