@@ -24,7 +24,7 @@
         arg: [newUrl]
       };
       try {
-        const response = await fetch('http://192.168.1.38:3333/redq', {
+        const response = await fetch('http://192.168.1.1:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -49,7 +49,7 @@
         arg: [newmac]
       };
       try {
-        const response = await fetch('http://192.168.1.38:3333/redq', {
+        const response = await fetch('http://192.168.1.1:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -74,7 +74,7 @@
         arg: [url]
       };
       try {
-        const response = await fetch('http://192.168.1.38:3333/redq', {
+        const response = await fetch('http://192.168.1.1:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -98,7 +98,7 @@
         arg: [mac]
       };
       try {
-        const response = await fetch('http://192.168.1.38:3333/redq', {
+        const response = await fetch('http://192.168.1.1:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -122,7 +122,7 @@
         arg: []
       };
       try {
-        const response = await fetch('http://192.168.1.38:3333/redq', {
+        const response = await fetch('http://192.168.1.1:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -148,7 +148,7 @@
         arg: []
       };
       try {
-        const response = await fetch('http://192.168.1.38:3333/redq', {
+        const response = await fetch('http://192.168.1.1:3333/redq', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
