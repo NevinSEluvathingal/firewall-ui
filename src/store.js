@@ -8,7 +8,7 @@ let token=localStorage.getItem('Token');
 console.log(token);
 const fetchCpuData = async () => {
     try {
-        const response = await fetch('http://192.168.1.38:3333/hardware/ussage',  {
+        const response = await fetch('http://192.168.1.1:3333/hardware/ussage',  {
       
           method: 'GET',
           headers: {
