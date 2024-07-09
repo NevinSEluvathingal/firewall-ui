@@ -1,0 +1,25 @@
+      <div class="form-group">
+        <label for="username" class="form-label">Username:</label>
+        <input type="text" id="username" class="form-input" bind:value={username} required>
+      </div>
+      <div class="form-group">
+        <label for="mail" class="form-label">Email:</label>
+        <input type="text" id="mail" class="form-input" bind:value={mail} required>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" id="password" class="form-input" bind:value={password} required>
+      </div>
+      <Label class="sr-only" for="email">Email</Label>
+      <Input
+        id="email"
+        placeholder="name@example.com"
+        type="email"
+        autocapitalize="none"
+        autocomplete="email"
+        autocorrect="off"
+      />
+      <div class="butto">
+        <button type="submit" class="form-button">Sign In</button>
+      </div>

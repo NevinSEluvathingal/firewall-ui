@@ -8,6 +8,6 @@
 	export { className as class };
 </script>
 
-<div class={cn("p-8 overflow-auto", className)} {...$$restProps}>
+<div class={cn("p-8", className)} {...$$restProps}>
 	<slot />
 </div>

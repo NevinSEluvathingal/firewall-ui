@@ -34,5 +34,5 @@
    * Use global.d.ts instead of compilerOptions.types
    * to avoid limiting type declarations.
    */
-  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte", "src/lib/components/ui/button/index.ts", "src/lib/components/ui/button/index.ts", "src/lib/components/ui/label/index.ts", "src/lib/components/ui/label/index.ts", "src/lib/utils.ts", "src/lib/utils.ts", "src/lib/components/ui/input/index.ts"]
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte", "src/lib/components/ui/button/index.ts", "src/lib/components/ui/button/index.ts", "src/lib/components/ui/label/index.ts", "src/lib/components/ui/label/index.ts", "src/lib/utils.ts", "src/lib/utils.ts", "src/lib/components/ui/input/index.ts", "src/store.ts", "src/dashboard/store.ts"]
 }
