@@ -1,14 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Chart } from 'chart.js/auto';
+  import { cpuData } from '../../store';
   import { derived } from 'svelte/store';
   export { default as Mem } from './mem.svelte';
 
-  const Temperature = Math.random()+Math.random()+50;
+  const cpu = derived(cpuData, $cpuData => $cpuData. CpuPercUsed);
 
-  let value = Temperature; 
-  let label = 'Temperature';
-  let unit = 'c';
+  let value = 40; 
+  let label = 'CPU';
+  let unit = '%';
   let canvas;
   let chart;
 
@@ -39,9 +40,9 @@
       });
 
       // Subscribe to MemoryUsage and update the chart when it changes
-      Temperature.subscribe($temp => {
-          console.log('MemoryUsage:', $temp);
-          value = Math.round($temp); // Round the value
+      cpu.subscribe($MemoryUsage => {
+          console.log('MemoryUsage:', $MemoryUsage);
+          value = Math.round($MemoryUsage); // Round the value
           chart.data.datasets[0].data = [value, 100 - value];
           chart.update();
       });
