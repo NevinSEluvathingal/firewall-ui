@@ -46,7 +46,7 @@
 
   async function fetchData() {
   try {
-    const response = await fetch('http://192.168.1.38:3333/redq', {
+    const response = await fetch('http://192.168.1.1:3333/redq', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
