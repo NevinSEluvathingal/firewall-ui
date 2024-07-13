@@ -175,7 +175,7 @@
   </script>
   
   <div class="flex items-center space-x-2">
-    <Card.Root style="overflow:hidden">
+    <Card.Root style="overflow:auto;">
       <Card.Header>
         <div>
           <Input
@@ -189,7 +189,7 @@
           Add
         </Button>
       </Card.Header>
-      <Card.Content>
+      <Card.Content style="height:20rem;overflow-y:auto;">
         <div class="space-y-8">
           <div><h2>Rules Added</h2></div>
           {#each $urlList as url (url)}
@@ -205,7 +205,7 @@
         </div>
       </Card.Content>
     </Card.Root>
-    <Card.Root style="overflow:hidden">
+    <Card.Root style="overflow:auto;">
       <Card.Header>
         <div>
           <Input
@@ -219,7 +219,7 @@
           Add
         </Button>
       </Card.Header>
-      <Card.Content>
+      <Card.Content style="height:20rem;overflow-y:auto;">
         <div class="space-y-8">
           <div><h2>Mac Blocked</h2></div>
           {#each $maclist as mac (mac)}
