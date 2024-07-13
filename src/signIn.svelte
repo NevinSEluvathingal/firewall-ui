@@ -7,7 +7,9 @@
   import {Input} from "$lib/components/ui/input/index";
   import Invalid from "$lib/components/ui/invalid/invalid.svelte";
   import Ise from "$lib/components/ui/ise/ise.svelte";
-    import { createNightowl } from '@bufferhead/nightowl'
+  import {ip} from "./store"
+    import { createNightowl } from '@bufferhead/nightowl';
+  export {SignIn} from "./signIn.svelte";
 
     createNightowl({
         defaultMode: 'dark',
@@ -36,7 +38,7 @@
       isloading = true;
       ise = false;
       invalid = false;
-      const response = await fetch('http://192.168.1.1:3333/account/sign-in', {
+      const response = await fetch(`http://${ip}/account/sign-in`, {
       
         method: 'POST',
         headers: {
@@ -163,14 +165,6 @@
     100% {
       opacity: 1;
     }
-  }
-
-  .error {
-    margin-top: -30px;
-  }
-
-  .error p {
-    color: red;
   }
 
   .svg h3 {

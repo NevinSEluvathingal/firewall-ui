@@ -5,6 +5,7 @@
     import { Button } from "$lib/registry/button/";
     import { Input } from "$lib/components/ui/input/index.js";
     import * as Card from "$lib/components/ui/card";
+    import {ip} from "./store";
   
     interface Struct {
       type: string;
@@ -24,7 +25,7 @@
         arg: [newUrl]
       };
       try {
-        const response = await fetch('http://192.168.1.1:3333/redq', {
+        const response = await fetch(`http://${ip}/redq`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -49,7 +50,7 @@
         arg: [newmac]
       };
       try {
-        const response = await fetch('http://192.168.1.1:3333/redq', {
+        const response = await fetch(`http://${ip}/redq`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -74,7 +75,7 @@
         arg: [url]
       };
       try {
-        const response = await fetch('http://192.168.1.1:3333/redq', {
+        const response = await fetch(`http://${ip}/redq`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -98,7 +99,7 @@
         arg: [mac]
       };
       try {
-        const response = await fetch('http://192.168.1.1:3333/redq', {
+        const response = await fetch(`http://${ip}/redq`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -122,7 +123,7 @@
         arg: []
       };
       try {
-        const response = await fetch('http://192.168.1.1:3333/redq', {
+        const response = await fetch(`http://${ip}/redq`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -148,7 +149,7 @@
         arg: []
       };
       try {
-        const response = await fetch('http://192.168.1.1:3333/redq', {
+        const response = await fetch(`http://${ip}/redq`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

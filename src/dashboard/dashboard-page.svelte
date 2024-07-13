@@ -7,7 +7,6 @@
 	import {
 		DashboardMainNav,
 		Overview,
-		Search,
 	} from "./index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import * as Card from "$lib/components/ui/card/index.js";

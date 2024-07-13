@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 export const currentPage = writable('overview');
 export const deviceno = writable(0);
+export const ip="localhost:3333";
 
 
 const cpuData = writable({ CpuPercUsed: 0, RamPercUsed: 0, Temperature: 0 });
@@ -8,7 +9,7 @@ let token=localStorage.getItem('Token');
 console.log(token);
 const fetchCpuData = async () => {
     try {
-        const response = await fetch('http://192.168.1.1:3333/hardware/ussage',  {
+        const response = await fetch(`http://${ip}/hardware/ussage`,  {
       
           method: 'GET',
           headers: {

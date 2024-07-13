@@ -2,6 +2,7 @@
 	import { onMount, onDestroy } from "svelte";
 	import AvatarImgs from "$lib/registry/avatar/index.js";
 	import * as Avatar from "$lib/registry/avatarUI/index.js";
+  import {ip} from "../../../../store.js"
 
 	let macAddresses = [];
 	let keys=[];
@@ -24,7 +25,7 @@
 
   async function fetchData() {
   try {
-    const response = await fetch('http://192.168.1.1:3333/redq', {
+    const response = await fetch(`http://${ip}/redq`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

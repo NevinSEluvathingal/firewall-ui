@@ -8,7 +8,8 @@
   import {Input} from "$lib/components/ui/input/index";
   import Exist from "$lib/components/ui/exist/exist.svelte";
   import { LogIn } from 'lucide-svelte';
-  import { createNightowl } from '@bufferhead/nightowl'
+  import { createNightowl } from '@bufferhead/nightowl';
+  import {ip} from "./store";
 
 createNightowl({
     defaultMode: 'dark',
@@ -51,7 +52,7 @@ createNightowl({
     try {
       isloading=true;
       exist=false;
-      const response = await fetch('http://192.168.1.1:3333/account/sign-up', {
+      const response = await fetch(`http://${ip}/account/sign-up`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
