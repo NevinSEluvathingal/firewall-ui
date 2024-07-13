@@ -52,9 +52,9 @@ onMount(() => {
  });
 </script>
 
-<div class="space-y-8 overflow-auto" style="overflow: auto;">
+<div class="space-y-8">
 	{#each macAddresses as macaddress, index}
-		<div class="flex items-center" style="overflow: auto;">
+		<div class="flex items-center">
 			<Avatar.Root class="h-9 w-9">
 				<Avatar.Image src={AvatarImgs[index % AvatarImgs.length]} alt="Avatar" />
 			</Avatar.Root>
