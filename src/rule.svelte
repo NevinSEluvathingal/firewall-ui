@@ -12,6 +12,7 @@
     startFetching();
   });
 </script>
+
 <div class="flex items-center justify-between space-y-2">
     <h2 class="text-3xl font-bold tracking-tight">Hardware Diagnosis</h2>
 </div>
@@ -36,7 +37,7 @@
                    <Temp />
                 </Card.Content>
             </Card.Root>
-            <Card2.Root class="col-span-1 overflow-hidden">
+            <Card2.Root class="col-span-1" style="height: 20rem; overflow-y: auto;">
                 <Card2.Header>
                     <Card2.Title>Specs</Card2.Title>
                 </Card2.Header>
