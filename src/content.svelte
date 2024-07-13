@@ -10,6 +10,7 @@
 	import * as Avatar from "$lib/registry/avatarUI/index.js";
     import RecentSales from "$lib/components/ui/hist/hist.svelte"
     export { default as Overview } from "./content.svelte";
+    import {ip} from "./store";
     import {deviceno} from "./store";
 
     let deviceNo;
@@ -46,7 +47,7 @@
 
   async function fetchData() {
   try {
-    const response = await fetch('http://192.168.1.1:3333/redq', {
+    const response = await fetch(`http://${ip}/redq`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -157,7 +158,7 @@ onMount(() => {
                     <Bar />
                 </Card.Content>
             </Card.Root>
-            <Card2.Root class="col-span-3" style="height:10rem,overflow:auto">
+            <Card2.Root class="col-span-3" style="height:30rem;overflow-y:auto;">
                 <Card2.Header>
                     <Card2.Title>Connected Devices</Card2.Title>
                     <Card2.Description>mac addresses</Card2.Description>
