@@ -1,8 +1,7 @@
 <script lang="ts">   
 </script>
 
-<div class="space-y-8">
-    <div><h2>System Specs</h2></div>
+<div class="space-y-9">
 	<div class="flex items-center">
 		<div class="ml-4 space-y-1">
 			<p class="text-sm font-medium leading-none">os</p>
