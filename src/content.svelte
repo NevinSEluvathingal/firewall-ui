@@ -150,7 +150,7 @@ onMount(() => {
          </div>
         </div>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <Card.Root class="col-span-4">
+            <Card.Root class="col-span-4" style="height:30rem;overflow-y:auto;">
                 <Card.Header>
                     <Card.Title>Overview</Card.Title>
                 </Card.Header>
