@@ -2,3 +2,18 @@
 
 
 used svelte,tailwind,shadcn components,typescript
+
+
+<h1>Steps to run </h1>
+<h2>docker build -t svelte-vite-build .</h2>
+
+<h2>on linux</h2>
+<h3>docker run -p 3000:5173 -v %cd%:/app svelte-vite-dev</h3>
+
+
+<h2>on windows powershell</h2>
+<h3>docker run -p 3000:5173 -v ${PWD}:/app  svelte-vite-dev</h3>
+
+
+<h2>At Last</h2>
+<h3><a href="http://localhost:3000">click here</a></h3>
