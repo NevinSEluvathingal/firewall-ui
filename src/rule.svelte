@@ -37,8 +37,8 @@
                    <Temp />
                 </Card.Content>
             </Card.Root>
-            <Card2.Root class="col-span-1" style="height: 20rem; overflow-y: auto;">
-                <Card2.Header>
+            <Card2.Root style="height: 20rem; overflow-y: auto;">
+                <Card2.Header   class="flex flex-row items-center justify-between space-y-0 pb-2">
                     <Card2.Title>Specs</Card2.Title>
                 </Card2.Header>
                 <Card2.Content>
