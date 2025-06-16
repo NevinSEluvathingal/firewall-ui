@@ -61,10 +61,8 @@
         data.forEach((point, index) => point.x = index);
         data2.forEach((point, index) => point.x = index);
         data.push({ x: data.length, y: prev });
-        data2.push({ x: data2.length, y: prev2 });
 
         chart.data.datasets[0].label = strEgr;
-        chart.data.datasets[1].label = strIng;
 
         chart.update();
       } else {
@@ -82,17 +80,10 @@
         datasets: [
           {
             label: strEgr,
-            borderColor: 'black',
-            borderWidth: 2,
-            radius: 0,
-            data: data,
-          },
-          {
-            label: strIng,
             borderColor: 'red',
             borderWidth: 2,
             radius: 0,
-            data: data2,
+            data: data,
           },
         ],
       },
