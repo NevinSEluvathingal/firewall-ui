@@ -10,7 +10,6 @@
   let data2 = []; 
   let updateInterval;
   let strEgr = '';
-  let strIng = '';
 
   interface Bandwidth {
     type: string,
@@ -24,8 +23,6 @@
     arg: [],
   };
 
-  const token = localStorage.getItem('Token');
-  console.log(token);
 
   async function fetchData() {
     try {
@@ -51,21 +48,14 @@
         strEgr = di.egress;
         let speedValue2 = d.ingress;
         const prev = parseInt(speedValue);
-        const prev2 = parseInt(speedValue2);
-        console.log(prev, prev2);
 
     
-        const maxValue = Math.max(prev, prev2);
-        if (maxValue > chart.options.scales.y.max) {
-          chart.options.scales.y.max = maxValue + 1000; 
+        if (prev > chart.options.scales.y.max) {
+          chart.options.scales.y.max = prev + 1000; 
         }
 
         if (data.length >= 50) {
           data.shift();
-        }
-
-        if (data2.length >= 50) {
-          data2.shift();
         }
 
         data.forEach((point, index) => point.x = index);
