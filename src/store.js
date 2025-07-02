@@ -20,9 +20,6 @@ const fetchCpuData = async () => {
             const data = await response.json();
             console.log(data);
             cpuData.set(data);
-            cpuData.subscribe(value => {
-              console.log(value.CpuPercUsed);
-            });
         } else {
             console.error('Failed to fetch CPU data:', response.statusText);
         }
