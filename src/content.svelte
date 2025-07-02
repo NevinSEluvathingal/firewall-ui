@@ -11,6 +11,7 @@
     import RecentSales from "$lib/components/ui/hist/hist.svelte"
     export { default as Overview } from "./content.svelte";
     import {ip} from "./store";
+    import { downstreamEvent } from './store';
     import {deviceno} from "./store";
 
     let deviceNo;
@@ -33,7 +34,7 @@
   const token = localStorage.getItem('Token');
   console.log(token);
 
-  interface Bandwidth {
+  /*interface Bandwidth {
     type: string,
     action: string,
     arg: string[],
@@ -69,19 +70,16 @@
   } catch (error) {
     console.error('Error fetching data:', error);
   }
-}
+}*/
 
 onMount(() => {
      username=user;
-    /* socket.on('curr_speed',(data)=>{
-         speed_up=data.up;
-		speed-down=data.down;
-         console.log(avg_speed);
-     })
-     return () => {
-     socket.disconnect();
-     }*/
-    update=setInterval(fetchData,1000);
+     const socket = new WebSocket("ws://localhost:8080/ws");
+     socket.onmessage = function(event) {
+         const data = JSON.parse(event.data);
+         downstreamEvent.set({Bytes:data.Bytes,MAC:data.MAC,IP:data.IP});
+     }
+    //update=setInterval(fetchData,1000);
  });
  </script>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -95,7 +93,7 @@ onMount(() => {
                     <Test />
                 </Card.Content>
             </Card.Root>
-            <Card.Root>
+           /* <Card.Root>
                 <Card.Header
                     class="flex flex-row items-center justify-between space-y-0 pb-2"
                 >
@@ -123,6 +121,7 @@ onMount(() => {
                    </div>
                 </Card.Content>
             </Card.Root>
+            
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
             <Card.Root>
                 <Card.Header
@@ -136,6 +135,7 @@ onMount(() => {
                     
                 </Card.Content>
             </Card.Root>
+            */
             <Card.Root>
                 <Card.Header
                     class="flex flex-row items-center justify-between space-y-0 pb-2"
@@ -149,6 +149,7 @@ onMount(() => {
             </Card.Root>
          </div>
         </div>
+        
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             <Card.Root class="col-span-4" style="height:30rem;overflow-y:auto;">
                 <Card.Header>
