@@ -82,7 +82,7 @@
 		];
 
 
-	const yTicks = [0, 100, 500, 1000];
+	const yTicks = [0, 50, 100, 200];
 	const padding = { top: 20, right: 15, bottom: 20, left: 45 };
 
 	let width = 500;

@@ -6,13 +6,13 @@
 		<div class="ml-4 space-y-1">
 			<p class="text-sm font-medium leading-none">os</p>
 		</div>
-		<div class="ml-auto font-medium">NixOS 24.05</div>
+		<div class="ml-auto font-medium">arch linux</div>
 	</div>
 	<div class="flex items-center">
 		<div class="ml-4 space-y-1">
 			<p class="text-sm font-medium leading-none">kernel</p>
 		</div>
-		<div class="ml-auto font-medium">versio:1-NixOS</div>
+		<div class="ml-auto font-medium">versio:1-arch</div>
 	</div>
 	<div class="flex items-center">
 		<div class="ml-4 space-y-1">
@@ -30,6 +30,6 @@
 		<div class="ml-4 space-y-1">
 			<p class="text-sm font-medium leading-none">cpu</p>
 		</div>
-		<div class="ml-auto font-medium">GenuineIntel 13th Gen Intel(R)</div>
+		<div class="ml-auto font-medium">amd athlon 3000g</div>
 	</div>
 </div>

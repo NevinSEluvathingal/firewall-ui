@@ -11,7 +11,7 @@
     import RecentSales from "$lib/components/ui/hist/hist.svelte"
     export { default as Overview } from "./content.svelte";
     import {ip} from "./store";
-    import { downstreamEvent } from './store';
+    import { downstreamEvent,downstreamMap } from './store';
     import {deviceno} from "./store";
 
     let deviceNo;
@@ -21,7 +21,7 @@
     deviceNo=$value-2;
     }
     );
-    let update;
+    let interval;
 
     let user=localStorage.getItem('name');
 	const Imgs=[
@@ -30,6 +30,15 @@
 	]
 	import * as Card from "$lib/components/ui/card/index.js";
     let username = 'hello';
+
+  function formatMac(mac: number[]): string {
+    return mac.map(x => x.toString(16).padStart(2, '0')).join(':');
+  }
+
+  function formatIP(ip: number): string {
+    return `${ip & 255}.${(ip >> 8) & 255}.${(ip >> 16) & 255}.${(ip >> 24) & 255}`;
+  }
+
 
   const token = localStorage.getItem('Token');
   console.log(token);
@@ -79,7 +88,7 @@ onMount(() => {
          const data = JSON.parse(event.data);
          downstreamEvent.set({Bytes:data.Bytes,MAC:data.MAC,IP:data.IP});
      }
-    //update=setInterval(fetchData,1000);
+    interval=setInterval(fetchData,1000);
  });
  </script>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

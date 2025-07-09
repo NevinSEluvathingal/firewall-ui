@@ -40,9 +40,9 @@
       });
 
       // Subscribe to MemoryUsage and update the chart when it changes
-      MemoryUsage.subscribe($MemoryUsage => {
-          console.log('MemoryUsage:', $MemoryUsage);
-          value = Math.round($MemoryUsage); // Round the value
+      MemoryUsage.subscribe(MemoryUsage => {
+          console.log('MemoryUsage:', MemoryUsage);
+          value = Math.round(MemoryUsage); // Round the value
           chart.data.datasets[0].data = [value, 100 - value];
           chart.update();
       });

@@ -5,7 +5,7 @@
   import { derived } from 'svelte/store';
   export { default as Mem } from './mem.svelte';
 
-  const cpu = derived(cpuData, $cpuData => $cpuData. CpuPercUsed);
+  const cpu = derived(cpuData, $cpuData => $cpuData. RamPercUsed);
 
   let value = 40; 
   let label = 'CPU';
@@ -40,9 +40,9 @@
       });
 
       // Subscribe to MemoryUsage and update the chart when it changes
-      cpu.subscribe($MemoryUsage => {
-          console.log('MemoryUsage:', $MemoryUsage);
-          value = Math.round($MemoryUsage); // Round the value
+      cpu.subscribe(ram => {
+          console.log('MemoryUsage:',ram);
+          value = Math.round(ram); // Round the value
           chart.data.datasets[0].data = [value, 100 - value];
           chart.update();
       });

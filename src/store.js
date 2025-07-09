@@ -3,8 +3,11 @@ export const currentPage = writable('overview');
 export const deviceno = writable(0);
 export const ip="localhost:3333";
 
+export const downstreamEvent = writable( {   Bytes: 0,IP: 0,MAC: 0 });
+export const downstreamMap = writable(new Map());
 
 const cpuData = writable({ CpuPercUsed: 0, RamPercUsed: 0, Temperature: 0 });
+
 let token=localStorage.getItem('Token');
 console.log(token);
 const fetchCpuData = async () => {
