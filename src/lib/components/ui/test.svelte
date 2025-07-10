@@ -3,51 +3,33 @@
   import { Chart } from 'chart.js/auto';
   import { deviceno } from "../../../store";
   export { default as Test } from './test.svelte';
-
+  import { downstreamMap } from '../../../store';
   let chart;
   let ctx;
-  let data = [];
-  let data2 = []; 
+  let data = []; 
   let updateInterval;
   let strEgr = '';
 
-  interface Bandwidth {
-    type: string,
-    action: string,
-    arg: string[],
-  }
+  let totalBytes = 0;
 
-  const resp: Bandwidth = {
-    type: 'bandwidth',
-    action: '',
-    arg: [],
-  };
+  function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  const k = 1024;
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const size = bytes / Math.pow(k, i);
+  return `${size.toFixed(2)} ${units[i]}`;
+}
 
 
-  async function fetchData() {
-    try {
-      const response = await fetch('http://192.168.1.1:3333/redq', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Tokenstring': `Bearer ${token}`,
-        },
-        body: JSON.stringify(resp),
-      });
-
-      if (response.ok) {
-        const dataResponse = await response.json();
-        const macAddresses = Object.keys(dataResponse);
-        const totlen=macAddresses.length;
-        console.log(totlen);
-        deviceno.set(totlen);
-        let d = dataResponse.totalRaw;
-        let di = dataResponse.total;
-        let speedValue = d.egress;
-        strIng = di.ingress;
-        strEgr = di.egress;
-        let speedValue2 = d.ingress;
-        const prev = parseInt(speedValue);
+function updateChart(){
+   totalBytes = 0;
+    $downstreamMap.forEach((value) => {
+      totalBytes += value.bytes;
+    });
+        let speedValue = totalBytes;
+        strEgr = formatBytes(totalBytes);
+        const prev = speedValue;
 
     
         if (prev > chart.options.scales.y.max) {
@@ -59,19 +41,13 @@
         }
 
         data.forEach((point, index) => point.x = index);
-        data2.forEach((point, index) => point.x = index);
         data.push({ x: data.length, y: prev });
 
         chart.data.datasets[0].label = strEgr;
 
-        chart.update();
-      } else {
-        console.error('Failed to fetch data:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
+        chart.update()
+}
+   ;
 
   onMount(() => {
     chart = new Chart(ctx, {
@@ -139,8 +115,7 @@
         },
       },
     });
-
-    updateInterval = setInterval(fetchData, 1000);
+     updateInterval = setInterval(updateChart, 1000);
   });
 
   onDestroy(() => {

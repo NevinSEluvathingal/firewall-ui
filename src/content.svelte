@@ -11,7 +11,7 @@
     import RecentSales from "$lib/components/ui/hist/hist.svelte"
     export { default as Overview } from "./content.svelte";
     import {ip} from "./store";
-    import { downstreamEvent,downstreamMap } from './store';
+    import { downstreamMap } from './store';
     import {deviceno} from "./store";
 
     let deviceNo;
@@ -83,12 +83,22 @@
 
 onMount(() => {
      username=user;
+      const map = new Map();
      const socket = new WebSocket("ws://localhost:8080/ws");
      socket.onmessage = function(event) {
          const data = JSON.parse(event.data);
-         downstreamEvent.set({Bytes:data.Bytes,MAC:data.MAC,IP:data.IP});
+          const mac = formatMac(data.MAC);
+          const ip = formatIP(data.IP);
+          const bytes = Number(data.Bytes);
+
+        if (map.has(mac)) {
+            const existing = map.get(mac);
+            existing.bytes += bytes;
+        } else {
+            map.set(mac, { ip, bytes });
+        }
+        downstreamMap.set(new Map(map));
      }
-    interval=setInterval(fetchData,1000);
  });
  </script>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
